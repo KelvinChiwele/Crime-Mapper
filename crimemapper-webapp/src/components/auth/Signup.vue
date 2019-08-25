@@ -1,5 +1,5 @@
 <template>
- <v-card max-width="40%" class="mx-auto mt-4 mb-4 pa-4">
+ <v-card max-width="500" class="mx-auto mt-4 mb-4 pa-4">
    <v-card-title>Officer Registration</v-card-title>
     <v-card-text>
       <v-form  ref="form" v-model="valid" lazy-validation>
