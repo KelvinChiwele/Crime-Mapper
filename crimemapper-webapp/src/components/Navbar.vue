@@ -7,7 +7,11 @@
         <span class="font-weight-light">Mapper</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text @click="logout()">
+      <v-btn v-if="!user" text>
+        <span class="mr-2">Login</span>
+        <v-icon>exit_to_app</v-icon>
+      </v-btn>
+      <v-btn v-if="user" text @click="logout()">
         <span class="mr-2">Log Out</span>
         <v-icon>exit_to_app</v-icon>
       </v-btn>
@@ -53,6 +57,7 @@ export default {
             drawer: false,
             links:[
                 {icon: 'dashboard', text: "Dashboard", route: '/'},
+                {icon: 'map', text: "Crime Map", route: '/mapper'},
                 {icon: 'folder', text: "Cases", route: '/cases'},
                 {icon: 'person', text: "Team", route: '/team'},
             ]
@@ -64,6 +69,15 @@ export default {
                 this.$router.push({name: 'Login'})
             })
         }
+    },
+    created(){
+        firebase.auth.onAuthStateChanged((user) => {
+            if (user){
+                this.user = user
+            } else {
+                this.user = null
+            }
+        })
     }
 }
 </script>

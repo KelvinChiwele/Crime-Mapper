@@ -9,14 +9,14 @@
     return {
       mapName: this.name + "-map",
       markerCoordinates: [{
-        latitude: 51.501527,
-        longitude: -0.1921837
+        latitude: -15.4284383,
+        longitude: 28.326578
       }, {
-        latitude: 51.505874,
-        longitude: -0.1838486
+        latitude: -15.4207469,
+        longitude: 28.3248492
       }, {
-        latitude: 51.4998973,
-        longitude: -0.202432
+        latitude: -15.4022046,
+        longitude: 28.2975198
       }],
       map: null,
       bounds: null,
