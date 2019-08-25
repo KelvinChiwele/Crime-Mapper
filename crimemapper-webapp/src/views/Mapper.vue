@@ -1,44 +1,54 @@
 <template>
-  <div class="map">
-    <div class="google-map" id="map"></div> 
-  </div>
+  <div class="google-map" :id="mapName"></div>
 </template>
 
 <script>
-export default {
-  name: 'Mapper',
-  data(){
-    return{
-      lat:53,
-      lng:2
+  export default {
+    name: 'Mapper',
+   data: function () {
+    return {
+      mapName: this.name + "-map",
+      markerCoordinates: [{
+        latitude: 51.501527,
+        longitude: -0.1921837
+      }, {
+        latitude: 51.505874,
+        longitude: -0.1838486
+      }, {
+        latitude: 51.4998973,
+        longitude: -0.202432
+      }],
+      map: null,
+      bounds: null,
+      markers: []
     }
   },
-  methods: {
-    renderMap(){
-        const map = new google.maps.Map(document.getElementById('map'),{
-        center:{lat:this.lat,lng:this.lng},
-        zoom:6,
-        maxZomm: 15,
-        minZoom:3,
-        streetViewControl: false
-      })
+  mounted: function () {
+    this.bounds = new google.maps.LatLngBounds();
+    const element = document.getElementById(this.mapName)
+    const mapCentre = this.markerCoordinates[0]
+    const options = {
+      center: new google.maps.LatLng(mapCentre.latitude, mapCentre.longitude)
     }
-  },
-  mounted(){
-    this.renderMap()
+    this.map = new google.maps.Map(element, options);
+    this.markerCoordinates.forEach((coord) => {
+      const position = new google.maps.LatLng(coord.latitude, coord.longitude);
+      const marker = new google.maps.Marker({ 
+        position,
+        map: this.map
+      });
+    this.markers.push(marker)
+      this.map.fitBounds(this.bounds.extend(position))
+    });
   }
-}
+};
 </script>
 
 <style>
-  .google-map{
-    width: 100%;
-    height: 100%,;
-    margin: 0 auto;
-    background:#fff;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
+   .google-map {
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      background: gray;
   }
 </style>
