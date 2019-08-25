@@ -44,6 +44,9 @@
 </template>
 
 <script>
+import db from "@/firebase/fb";
+import firebase from 'firebase';
+require('firebase/auth')
     export default {
     data: () => ({
         date: new Date().toISOString().substr(0, 10),

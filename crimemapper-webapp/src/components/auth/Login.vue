@@ -15,13 +15,11 @@
 </template>
 
 <script>
-import db from "@/firebase/fb";
 import firebase from 'firebase';
 require('firebase/auth')
 export default {
   data: () => ({
     valid: true,
-    email: null,
     passWord: null,
     feedback: null,
     passWordRules: [

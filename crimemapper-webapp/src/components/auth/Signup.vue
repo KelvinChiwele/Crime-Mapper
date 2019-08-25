@@ -3,11 +3,11 @@
    <v-card-title>Officer Registration</v-card-title>
     <v-card-text>
       <v-form  ref="form" v-model="valid" lazy-validation>
-         <v-text-field v-model="serviceNumber" label="Service Number" required></v-text-field>
+         <v-text-field v-model="serviceNumber" :rules="serviceNumberRules" label="Service Number" required></v-text-field>
         <v-text-field v-model="firstName" :rules="nameRules" label="First Name" required></v-text-field>
         <v-text-field v-model="lastName" :rules="nameRules" label="Last Name" required></v-text-field>
         <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-         <v-text-field v-model="passWord" label="Password" required></v-text-field>
+         <v-text-field v-model="passWord" :rules="nameRules" label="Password" required></v-text-field>
         <p class="red-text center" v-if="feedback">{{feedback}}</p>
         <v-select
           v-model="select"
@@ -65,6 +65,10 @@ export default {
     rank: null,
     phoneNumber: null,
     feedback: null,
+    serviceNumberRules: [
+      v => !!v || "Service Number is required",
+      v => (v && v.length <= 10) || "Service Number must be less than 10 characters"
+    ],
     nameRules: [
       v => !!v || "Name is required",
       v => (v && v.length <= 10) || "Name must be less than 10 characters"
@@ -87,11 +91,10 @@ export default {
           let ref = db.collection("officers").doc(this.serviceNumber);
           ref.get().then(doc => {
             if (doc.exits) {
-              this.feedback =
-                "Officer already registered with this service number";
+              this.feedback ="Officer already registered with this service number";
             } else {
               firebase.auth().createUserWithEmailAndPassword(this.email, this.passWord)
-              .then(cred =>{
+              .then(user =>{
                 ref.set({
                   firstName: this.firstName,
                   lastName: this.lastName,
@@ -101,7 +104,7 @@ export default {
                   role: this.role,
                   rank: this.rank,
                   phoneNumber: this.phoneNumber,
-                  userId: cred.uid
+                  userId: user.uid
                 })
               }).then(() =>{
                 this.$router.push({name: 'Dashboard'})
@@ -128,8 +131,7 @@ export default {
         let ref = db.collection("officers").doc(this.serviceNumber);
         ref.get().then(doc => {
           if (doc.exits) {
-            this.feedback =
-              "Officer already registered with this service number";
+            this.feedback = "Officer already registered with this service number";
           } else {
             firebase.auth
               .createUserWithEmailAndPassword(this.email, this.password)
