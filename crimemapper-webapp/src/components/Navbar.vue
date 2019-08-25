@@ -3,11 +3,11 @@
     <v-app-bar app>
       <v-app-bar-nav-icon class="grey--text" @click="drawer =!drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
+        <span class="red--text">Crime</span>
+        <span class="font-weight-light">Mapper</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text>
+      <v-btn text @click="logout()">
         <span class="mr-2">Log Out</span>
         <v-icon>exit_to_app</v-icon>
       </v-btn>
@@ -45,6 +45,7 @@
 
 <script>
 import Addcase from './Addcase'
+import firebase from 'firebase'
 export default {
     components: {Addcase},
     data(){
@@ -55,6 +56,13 @@ export default {
                 {icon: 'folder', text: "Cases", route: '/cases'},
                 {icon: 'person', text: "Team", route: '/team'},
             ]
+        }
+    },
+    method: {
+        logout(){
+            firebase.auth().signOut().then(() =>{
+                this.$router.push({name: 'Signup'})
+            })
         }
     }
 }

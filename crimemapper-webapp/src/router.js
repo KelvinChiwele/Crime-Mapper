@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Dashboard from './views/Dashboard.vue'
 import Cases from './views/Cases.vue'
 import Team from './views/Team.vue'
+import Mapper from './views/Mapper.vue'
+import Signup from './components/auth/Signup.vue'
 
 Vue.use(Router)
 
@@ -11,9 +13,19 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/register',
+      name: 'Signup',
+      component: Signup
+    },
+    {
       path: '/',
       name: 'Dashboard',
       component: Dashboard
+    },
+    {
+      path: '/mapper',
+      name: 'Mapper',
+      component: Mapper
     },
     {
       path: '/cases',
