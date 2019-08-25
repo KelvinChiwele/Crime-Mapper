@@ -5,10 +5,11 @@ import Cases from './views/Cases.vue'
 import Team from './views/Team.vue'
 import Mapper from './views/Mapper.vue'
 import Signup from './components/auth/Signup.vue'
+import Login from './components/auth/Login.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -18,19 +19,33 @@ export default new Router({
       component: Signup
     },
     {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
       path: '/',
       name: 'Dashboard',
-      component: Dashboard
+      component: Dashboard,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/mapper',
       name: 'Mapper',
-      component: Mapper
+      component: Mapper,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/cases',
       name: 'cases',
-      component: Cases
+      component: Cases,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/team',
@@ -47,3 +62,22 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  //check requirements for accesing route
+  if (to.matched.some(rec => rec.meta.requiresAuth)){
+    //check Auth state
+    let user = firebase.auth().currentUser
+    if (user){
+      //proceed to route
+      next()
+    } else {
+      //redirect
+      next({name: 'Login'})
+    }
+  } else {
+    next()
+  }
+})
+
+export default router
