@@ -1,18 +1,43 @@
 <template>
- <v-card max-width="600" class="mx-auto mt-4 pa-4">
-   <v-card-title>Register an Officer</v-card-title>
+ <v-card max-width="40%" class="mx-auto mt-4 mb-4 pa-4">
+   <v-card-title>Officer Registration</v-card-title>
     <v-card-text>
       <v-form  ref="form" v-model="valid" lazy-validation>
-         <v-text-field v-model="serviceNumber" label="serviceNumber" required></v-text-field>
-        <v-text-field v-model="firstName" :counter="10" :rules="nameRules" label="firstName" required></v-text-field>
+         <v-text-field v-model="serviceNumber" label="Service Number" required></v-text-field>
+        <v-text-field v-model="firstName" :rules="nameRules" label="First Name" required></v-text-field>
+        <v-text-field v-model="lastName" :rules="nameRules" label="Last Name" required></v-text-field>
         <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
          <v-text-field v-model="passWord" label="Password" required></v-text-field>
         <p class="red-text center" v-if="feedback">{{feedback}}</p>
         <v-select
           v-model="select"
           :items="items"
-          :rules="[v => !!v || 'Item is required']"
-          label="Item"
+          :rules="[v => !!v || 'Division is required']"
+          label="--Select Division--"
+          required></v-select>
+        <v-select
+          v-model="select"
+          :items="items"
+          :rules="[v => !!v || 'District is required']"
+          label="--Select District--"
+          required></v-select>
+        <v-select
+          v-model="select"
+          :items="items"
+          :rules="[v => !!v || 'Post is required']"
+          label="--Select Post--"
+          required></v-select>
+        <v-select
+          v-model="select"
+          :items="items"
+          :rules="[v => !!v || 'Role is required']"
+          label="--Select Role--"
+          required></v-select>
+        <v-select
+          v-model="select"
+          :items="items"
+          :rules="[v => !!v || 'Rank is required']"
+          label="--Select Rank--"
           required></v-select>
           <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Register</v-btn>
           <v-btn color="error" class="mr-4" @click="reset">Clear</v-btn>

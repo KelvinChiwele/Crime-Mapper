@@ -1,10 +1,10 @@
 <template>
- <v-card max-width="600" class="mx-auto mt-4 pa-4">
+ <v-card max-width="40%" class="mx-auto mt-4 pa-4">
    <v-card-title>Login</v-card-title>
     <v-card-text>
       <v-form  ref="form" v-model="valid" lazy-validation>
          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-         <v-text-field v-model="passWord" label="Password" required></v-text-field>
+         <v-text-field v-model="passWord" :rules="passWordRules" label="Password" required></v-text-field>
         <p class="red-text center" v-if="feedback">{{feedback}}</p>
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Login</v-btn>
         <v-btn color="error" class="mr-4" @click="reset">Clear</v-btn>
@@ -24,19 +24,14 @@ export default {
     email: null,
     passWord: null,
     feedback: null,
-    nameRules: [
-      v => !!v || "Name is required",
-      v => (v && v.length <= 10) || "Name must be less than 10 characters"
+    passWordRules: [
+      v => !!v || "Password is required"
     ],
     email: "",
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-    ],
-    select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-    checkbox: false,
-
+    ]
   }),
 
   methods: {

@@ -7,7 +7,7 @@
           <template v-slot:activator="{ on }">
           <v-btn small text color="grey" @click="sortBy('title')" v-on="on">
             <v-icon small left>folder</v-icon>
-            <span class="caption text-lowercase">By project name</span>
+            <span class="caption text-lowercase">By subject</span>
           </v-btn>
           </template>
           <span>Sort by project name</span>
@@ -26,15 +26,15 @@
       <v-card text v-for="project in projects" :key="project.title">
         <v-layout row wrap :class="`pa-2 project ${project.status}`">
           <v-flex xs12 md6  class="pl-2">
-            <div class="caption grey--text">Project title</div>
+            <div class="caption grey--text">Subject</div>
             <div>{{ project.title }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Person</div>
+            <div class="caption grey--text">Complainant</div>
             <div>{{ project.person }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Due by</div>
+            <div class="caption grey--text">Time</div>
             <div>{{ project.due }}</div>
           </v-flex>
           <v-flex xs2 sm4 md2>

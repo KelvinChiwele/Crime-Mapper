@@ -49,9 +49,41 @@
         date: new Date().toISOString().substr(0, 10),
         menu2: false,
         dialog: false,
-        title: "",
-        content: "",
+        subject: "",
+        occurence: "",
         due: "",
     }),
+     validate() {
+      if (this.$refs.form.validate()) {
+          let ref = db.collection("occurences").doc(this.serviceNumber);
+          ref.get().then(doc => {
+            if (doc.exits) {
+              this.feedback =
+                "Officer already registered with this service number";
+            } else {
+              firebase.auth().createUserWithEmailAndPassword(this.email, this.passWord)
+              .then(cred =>{
+                ref.set({
+                  subject: this.subject,
+                  occurence: this.occurence,
+                  obNumber: this.obNumber,
+                  timeStamp: this.timeStamp,
+                  particularOfOffence: this.particularOfOffence,
+                  complainantId: this.complainantId,
+                  accusedId: this.accusedId,
+                  reportingOfficer: this.reportingOfficer,
+                })
+              }).then(() =>{
+                this.$router.push({name: 'Dashboard'})
+              }).catch(err => {
+                 // console.log(err)
+                  this.feedback = err.message;
+                });
+            }
+          });
+        } else {
+          this.feedback = "This service number can not be empty";
+        }
+    },
 }
 </script>
