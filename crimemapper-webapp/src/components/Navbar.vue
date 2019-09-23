@@ -55,6 +55,7 @@ export default {
     data(){
         return{
             drawer: false,
+            user:'',
             links:[
                 {icon: 'dashboard', text: "Dashboard", route: '/'},
                 {icon: 'map', text: "Crime Map", route: '/mapper'},
@@ -71,13 +72,16 @@ export default {
         }
     },
     created(){
-        firebase.auth.onAuthStateChanged((user) => {
-            if (user){
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
                 this.user = user
+                // User is signed in.
             } else {
-                this.user = null
+                // No user is signed in.
+                //this.user = null
             }
-        })
+            })
     }
 }
 </script>

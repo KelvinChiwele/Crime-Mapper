@@ -10,8 +10,8 @@
         </v-card-title>
         <v-card-text>
           <v-form>
-            <v-text-field label="Subject" v-model="title"></v-text-field>
-            <v-textarea label="Particulars of Offense" v-model="title"></v-textarea>
+            <v-text-field label="Subject" v-model="subject"></v-text-field>
+            <v-textarea label="Particulars of Offense" v-model="subject"></v-textarea>
             <v-menu
                 v-model="menu2"
                 :close-on-content-click="false"
