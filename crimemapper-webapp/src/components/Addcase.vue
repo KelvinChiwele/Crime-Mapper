@@ -31,6 +31,8 @@
                 </template>
                 <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
             </v-menu>
+            <v-textarea label="Particulars of Offense" v-model="subject"></v-textarea>
+            <v-btn center class="success mx-0 mt-3">Add Location</v-btn>
           </v-form>
         </v-card-text>
         <v-card-actions>
