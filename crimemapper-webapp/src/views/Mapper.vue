@@ -126,13 +126,12 @@
       });
        marker.addListener('click', function() {
          var content = '<div id="iw-container">' +
-                      '<div class="iw-title"><strong>DESCRIPTION: </strong>'+coord.description+'</div><br>' +                     
+                      '<div class="iw-title"><strong>DESCRIPTION: </strong>'+coord.description+'</div>' +                     
                       '<div class="iw-content">' +
-                        '<p><strong>COORDINATES</strong>'+
-                         '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div><br>' +
+                        '<p>'+
+                         '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div>' +
                         '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> Longitude: </strong>'+coord.latitude+'</p>'+
-                        '<p><strong>TIME</strong>'+
-                        '<br>'+coord.time+'</p>'+
+                        '<p><strong>TIME: </strong>'+coord.time+'</p>'+
                       '</div>' +
                       '<div class="iw-bottom-gradient"></div>' +
                     '</div>';
