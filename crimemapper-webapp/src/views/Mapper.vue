@@ -11,33 +11,93 @@
       markerCoordinates: [{
         latitude: -15.4284383,
         longitude: 28.326578,
-      }, {
-        latitude: -15.5207469,
-        longitude: 28.3248492,
+        place: "Unknown Location",
+        time: "9-24-2019 @ 7:00 PM",
+        description: "Robbery",
+      },{
+        latitude: -15.4074378,
+        longitude: 28.3348543,
+        time: "9-24-2019 @ 7:00 PM",
+        place: "Yalelo Authorized Reseller",
+        description: "Robbery",
+      },{
+        latitude: -15.4074378,
+        longitude: 28.3348543,
+        time: "9-24-2019 @ 7:00 PM",
+        place: "Viigo Collections",
+        description: "Drugs / Alcohol Violations",
+      },{
+        latitude: -15.4080274,
+        longitude: 28.3362169,
+        time: "9-24-2019 @ 7:00 PM",
+        place: "Afrinovations Enterprise Kalingalinga",
+        description: "Robbery",
+      },{
+        latitude: -15.4074378,
+        longitude: 28.3348543,
+        time: "9-24-2019 @ 7:00 PM",
+        place: "Express Credit",
+        description: "Fraud",
+      },{
+        latitude: -15.4181212,
+        longitude: 28.3309061,
+        time: "9-24-2019 @ 7:00 PM",
+        place: "Kalumbila Mine",
+        description: "Vehicle Break-In / Theft",
+      },{
+        latitude: -15.4074378,
+        longitude: 28.3348543,
+        time: "9-24-2019 @ 7:00 PM",
+        place: "Yalelo Authorized Reseller",
+        description: "Robbery",
+      },  {
+       latitude: -15.4299943,
+        longitude: 28.3328373,
+        time: "9-24-2019 @ 7:00 PM",
+        place: "Brentwood Drive SDA Church",
+        description: "Robbery",
       }, {
         latitude: -15.6026746,
         longitude: 28.2975198,
+        time: "9-24-2019 @ 7:00 PM",
+        place: "Unknown Location",
+        description: "Robbery",
       }, {
         latitude: -15.7022746,
         longitude: 28.2975198,
+        time: "5-06-2019 @ 7:00 PM",
+        place: "Unknown Location",
+        description: "Robbery",
       }, {
         latitude: -15.4055046,
         longitude: 28.2909198,
+        time: "9-09-2019 @ 7:00 PM",
+        place: "Unknown Location",
+        description: "Robbery",
       }, {
         latitude: -15.4382046,
         longitude: 28.2935498,
+        time: "8-09-2019 @ 7:00 PM",
+        place: "Unknown Location",
+        description: "Robbery",
       }, {
         latitude: -15.4482046,
         longitude: 28.2935498,
+        time: "5-12-2018 @ 7:00 PM",
+        place: "Unknown Location",
+        description: "Robbery",
       }, {
         latitude: -15.4682046,
         longitude: 28.2945498,
+        time: "11-04-2016 @ 7:00 PM",
+        place: "Unknown Location",
+        description: "Robbery",
       }, {
         latitude: -15.4882046,
         longitude: 28.2955498,
-      }, {
-        latitude: -15.4982046,
-        longitude: 28.2985498,
+         time: "24-02-2018 @ 7:00 PM",
+        place: "Unknown Location",
+        description: "Robbery",
       }],
       map: null,
       bounds: null,
@@ -46,25 +106,9 @@
   },
   mounted: function () {
      // InfoWindow content
-    var content = '<div id="iw-container">' +
-                      '<div class="iw-title">Kalingalinga</div><br>' +
-                      '<div class="iw-content">' +
-                        '<p>Founded in 1824, the Porcelain Factory of Vista Alegre was the first </p>' +
-                        '<div class="iw-subTitle">Contacts</div>' +
-                        '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
-                        '<br>Location: </p>'+
-                      '</div>' +
-                      '<div class="iw-bottom-gradient"></div>' +
-                    '</div>';
+    
 
-    // A new Info Window is created and set content
-    var infowindow = new google.maps.InfoWindow({
-      content: content,
-
-      // Assign a maximum value for the width of the infowindow allows
-      // greater control over the various content elements
-      maxWidth: 300
-    });
+    
 
     this.bounds = new google.maps.LatLngBounds();
     const element = document.getElementById(this.mapName)
@@ -78,9 +122,28 @@
       const marker = new google.maps.Marker({ 
         position,
         map: this.map,
-        title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
+       // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
       });
        marker.addListener('click', function() {
+         var content = '<div id="iw-container">' +
+                      '<div class="iw-title"><strong>DESCRIPTION: </strong>'+coord.description+'</div><br>' +                     
+                      '<div class="iw-content">' +
+                        '<p><strong>COORDINATES</strong>'+
+                         '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div><br>' +
+                        '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> Longitude: </strong>'+coord.latitude+'</p>'+
+                        '<p><strong>TIME</strong>'+
+                        '<br>'+coord.time+'</p>'+
+                      '</div>' +
+                      '<div class="iw-bottom-gradient"></div>' +
+                    '</div>';
+          // A new Info Window is created and set content
+        var infowindow = new google.maps.InfoWindow({
+          content: content,
+
+          // Assign a maximum value for the width of the infowindow allows
+          // greater control over the various content elements
+          maxWidth: 320
+        })
           infowindow.open(map, marker);
         });
       this.markers.push(marker)
@@ -92,9 +155,12 @@
 
    
     // This event expects a click on a marker
-    // When this event is fired the Info Window is opened.
-    google.maps.event.addListener(marker, 'click', function() {
-      infowindow.open(map,marker);
+ 
+    google.maps.event.addListener(map, "rightclick", function(event) {
+        var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
+        // populate yor box/field with lat, lng
+        alert("Lat=" + lat + "; Lng=" + lng);
     });
 
     // Event that closes the Info Window with a click on the map
