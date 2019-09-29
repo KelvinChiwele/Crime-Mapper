@@ -6,6 +6,7 @@
   export default {
     name: 'Mapper',
    data: function () {
+     //3.svg - Burglary, 7.svg -  Fraud, 10.svg - Robbery Dru = 5.svg  
     return {
       mapName: this.name + "-map",
       markerCoordinates: [{
@@ -13,23 +14,27 @@
         longitude: 28.326578,
         place: "Unknown Location",
         time: "9-24-2019 @ 7:00 PM",
-        description: "Robbery",
+        icon: "7.svg",
+        description: "Fraud",
       },{
         latitude: -15.4074378,
         longitude: 28.3348543,
         time: "9-24-2019 @ 7:00 PM",
         place: "Yalelo Authorized Reseller",
-        description: "Robbery",
+        icon: "3.svg",
+        description: "Burglary",
       },{
         latitude: -15.4074378,
         longitude: 28.3348543,
         time: "9-24-2019 @ 7:00 PM",
         place: "Viigo Collections",
+        icon: "5.svg",
         description: "Drugs / Alcohol Violations",
       },{
         latitude: -15.4080274,
         longitude: 28.3362169,
         time: "9-24-2019 @ 7:00 PM",
+        icon: "10.svg",
         place: "Afrinovations Enterprise Kalingalinga",
         description: "Robbery",
       },{
@@ -37,67 +42,78 @@
         longitude: 28.3348543,
         time: "9-24-2019 @ 7:00 PM",
         place: "Express Credit",
+        icon: "7.svg",
         description: "Fraud",
       },{
         latitude: -15.4181212,
         longitude: 28.3309061,
         time: "9-24-2019 @ 7:00 PM",
         place: "Kalumbila Mine",
+        icon: "9.svg",
         description: "Vehicle Break-In / Theft",
       },{
         latitude: -15.4074378,
         longitude: 28.3348543,
         time: "9-24-2019 @ 7:00 PM",
         place: "Yalelo Authorized Reseller",
-        description: "Robbery",
+        icon: "2.svg",
+        description: "Assault",
       },  {
        latitude: -15.4299943,
         longitude: 28.3328373,
         time: "9-24-2019 @ 7:00 PM",
         place: "Brentwood Drive SDA Church",
+        icon: "10.svg",
         description: "Robbery",
       }, {
         latitude: -15.6026746,
         longitude: 28.2975198,
         time: "9-24-2019 @ 7:00 PM",
         place: "Unknown Location",
+        icon: "10.svg",
         description: "Robbery",
       }, {
         latitude: -15.7022746,
         longitude: 28.2975198,
         time: "5-06-2019 @ 7:00 PM",
         place: "Unknown Location",
+        icon: "10.svg",
         description: "Robbery",
       }, {
         latitude: -15.4055046,
         longitude: 28.2909198,
         time: "9-09-2019 @ 7:00 PM",
         place: "Unknown Location",
+        icon: "10.svg",
         description: "Robbery",
       }, {
         latitude: -15.4382046,
         longitude: 28.2935498,
         time: "8-09-2019 @ 7:00 PM",
         place: "Unknown Location",
+        icon: "10.svg",
         description: "Robbery",
       }, {
         latitude: -15.4482046,
         longitude: 28.2935498,
         time: "5-12-2018 @ 7:00 PM",
         place: "Unknown Location",
+        icon: "10.svg",
         description: "Robbery",
       }, {
         latitude: -15.4682046,
         longitude: 28.2945498,
         time: "11-04-2016 @ 7:00 PM",
         place: "Unknown Location",
-        description: "Robbery",
+        icon: "2.svg",
+        description: "Assault",
       }, {
         latitude: -15.4882046,
         longitude: 28.2955498,
          time: "24-02-2018 @ 7:00 PM",
         place: "Unknown Location",
-        description: "Robbery",
+        icon: "2.svg",
+        description: "Assault",
       }],
       map: null,
       bounds: null,
@@ -121,6 +137,7 @@
       const position = new google.maps.LatLng(coord.latitude, coord.longitude);
       const marker = new google.maps.Marker({ 
         position,
+        icon: coord.icon,
         map: this.map,
        // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
       });
