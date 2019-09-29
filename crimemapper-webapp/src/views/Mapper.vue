@@ -108,6 +108,13 @@
         icon: "2.svg",
         description: "Assault",
       }, {
+        latitude: -15.4338234,
+        longitude: 28.3380676,
+        time: "11-04-2016 @ 7:00 PM",
+        place: "Unknown Location",
+        icon: "2.svg",
+        description: "Assault",
+      }, {
         latitude: -15.4882046,
         longitude: 28.2955498,
          time: "24-02-2018 @ 7:00 PM",
