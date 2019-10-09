@@ -3,125 +3,13 @@
 </template>
 
 <script>
+  import db from '@/firebase/fb'
   export default {
     name: 'Mapper',
    data: function () {
      //3.svg - Burglary, 7.svg -  Fraud, 10.svg - Robbery Dru = 5.svg  
     return {
-      mapName: this.name + "-map",
-      markerCoordinates: [{
-        latitude: -15.4284383,
-        longitude: 28.326578,
-        place: "Unknown Location",
-        time: "9-24-2019 @ 7:00 PM",
-        icon: "7.svg",
-        description: "Fraud",
-      },{
-        latitude: -15.4074378,
-        longitude: 28.3348543,
-        time: "9-24-2019 @ 7:00 PM",
-        place: "Yalelo Authorized Reseller",
-        icon: "3.svg",
-        description: "Burglary",
-      },{
-        latitude: -15.4074378,
-        longitude: 28.3348543,
-        time: "9-24-2019 @ 7:00 PM",
-        place: "Viigo Collections",
-        icon: "5.svg",
-        description: "Drugs / Alcohol Violations",
-      },{
-        latitude: -15.4080274,
-        longitude: 28.3362169,
-        time: "9-24-2019 @ 7:00 PM",
-        icon: "10.svg",
-        place: "Afrinovations Enterprise Kalingalinga",
-        description: "Robbery",
-      },{
-        latitude: -15.4074378,
-        longitude: 28.3348543,
-        time: "9-24-2019 @ 7:00 PM",
-        place: "Express Credit",
-        icon: "7.svg",
-        description: "Fraud",
-      },{
-        latitude: -15.4181212,
-        longitude: 28.3309061,
-        time: "9-24-2019 @ 7:00 PM",
-        place: "Kalumbila Mine",
-        icon: "9.svg",
-        description: "Vehicle Break-In / Theft",
-      },{
-        latitude: -15.4074378,
-        longitude: 28.3348543,
-        time: "9-24-2019 @ 7:00 PM",
-        place: "Yalelo Authorized Reseller",
-        icon: "2.svg",
-        description: "Assault",
-      },  {
-       latitude: -15.4299943,
-        longitude: 28.3328373,
-        time: "9-24-2019 @ 7:00 PM",
-        place: "Brentwood Drive SDA Church",
-        icon: "10.svg",
-        description: "Robbery",
-      }, {
-        latitude: -15.6026746,
-        longitude: 28.2975198,
-        time: "9-24-2019 @ 7:00 PM",
-        place: "Unknown Location",
-        icon: "10.svg",
-        description: "Robbery",
-      }, {
-        latitude: -15.7022746,
-        longitude: 28.2975198,
-        time: "5-06-2019 @ 7:00 PM",
-        place: "Unknown Location",
-        icon: "10.svg",
-        description: "Robbery",
-      }, {
-        latitude: -15.4055046,
-        longitude: 28.2909198,
-        time: "9-09-2019 @ 7:00 PM",
-        place: "Unknown Location",
-        icon: "10.svg",
-        description: "Robbery",
-      }, {
-        latitude: -15.4382046,
-        longitude: 28.2935498,
-        time: "8-09-2019 @ 7:00 PM",
-        place: "Unknown Location",
-        icon: "10.svg",
-        description: "Robbery",
-      }, {
-        latitude: -15.4482046,
-        longitude: 28.2935498,
-        time: "5-12-2018 @ 7:00 PM",
-        place: "Unknown Location",
-        icon: "10.svg",
-        description: "Robbery",
-      }, {
-        latitude: -15.4682046,
-        longitude: 28.2945498,
-        time: "11-04-2016 @ 7:00 PM",
-        place: "Unknown Location",
-        icon: "2.svg",
-        description: "Assault",
-      }, {
-        latitude: -15.4338234,
-        longitude: 28.3380676,
-        time: "11-04-2016 @ 7:00 PM",
-        place: "Unknown Location",
-        icon: "2.svg",
-        description: "Assault",
-      }, {
-        latitude: -15.4882046,
-        longitude: 28.2955498,
-         time: "24-02-2018 @ 7:00 PM",
-        place: "Unknown Location",
-        icon: "2.svg",
-        description: "Assault",
-      }],
+      mapName: this.name + "-map",      
       map: null,
       bounds: null,
       markers: []
@@ -130,61 +18,52 @@
   mounted: function () {
      // InfoWindow content
     
-
-    
-
     this.bounds = new google.maps.LatLngBounds();
     const element = document.getElementById(this.mapName)
     const mapCentre = this.markerCoordinates[0]
     const options = {
-      center: new google.maps.LatLng(mapCentre.latitude, mapCentre.longitude)
+      center: new google.maps.LatLng(-15.6026746, 28.3380676)
     }
     this.map = new google.maps.Map(element, options);
-    this.markerCoordinates.forEach((coord) => {
-      const position = new google.maps.LatLng(coord.latitude, coord.longitude);
-      const marker = new google.maps.Marker({ 
-        position,
-        icon: coord.icon,
-        map: this.map,
-       // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
-      });
-       marker.addListener('click', function() {
-         var content = '<div id="iw-container">' +
-                      '<div class="iw-title"><strong>DESCRIPTION: </strong>'+coord.description+'</div>' +                     
-                      '<div class="iw-content">' +
-                        '<p>'+
-                         '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div>' +
-                        '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> Longitude: </strong>'+coord.latitude+'</p>'+
-                        '<p><strong>TIME: </strong>'+coord.time+'</p>'+
-                      '</div>' +
-                      '<div class="iw-bottom-gradient"></div>' +
-                    '</div>';
-          // A new Info Window is created and set content
-        var infowindow = new google.maps.InfoWindow({
-          content: content,
 
-          // Assign a maximum value for the width of the infowindow allows
-          // greater control over the various content elements
-          maxWidth: 320
-        })
-          infowindow.open(map, marker);
-        });
-      this.markers.push(marker)
-      this.map.fitBounds(this.bounds.extend(position))
+    db.collection('crimes').get().then(crimes =>{
+      crimes.docs.forEach(doc => {        
+        let coord = doc.data();
 
-       
-    });
+        const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
+        const marker = new google.maps.Marker({ 
+          position,
+          icon: coord.icon +".svg",
+          map: this.map,
+          // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
+          });
+          marker.addListener('click', function() {
+          var content = '<div id="iw-container">' +
+                        '<div class="iw-title"><strong>DESCRIPTION: </strong>'+coord.description+'</div>' +                     
+                        '<div class="iw-content">' +
+                          '<p>'+
+                          '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div>' +
+                          '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> Longitude: </strong>'+coord.latitude+'</p>'+
+                          '<p><strong>TIME: </strong>'+coord.time+'</p>'+
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
+            // A new Info Window is created and set content
+          var infowindow = new google.maps.InfoWindow({
+            content: content,
+            // Assign a maximum value for the width of the infowindow allows
+            // greater control over the various content elements
+            maxWidth: 320
+          })
+            infowindow.open(map, marker);
+          });
+          this.markers.push(marker)
+          this.map.fitBounds(this.bounds.extend(position))
+          
+          }) //End for each
+    })
+    
      var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
-
-   
-    // This event expects a click on a marker
- 
-    google.maps.event.addListener(map, "rightclick", function(event) {
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
-        // populate yor box/field with lat, lng
-        alert("Lat=" + lat + "; Lng=" + lng);
-    });
 
     // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function() {
