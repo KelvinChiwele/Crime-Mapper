@@ -23,23 +23,23 @@
         </v-tooltip>
       </v-layout>
       
-      <v-card text v-for="project in projects" :key="project.title">
-        <v-layout row wrap :class="`pa-2 project ${project.status}`">
+      <v-card text v-for="occurence in occurences" :key="occurence.subject">
+        <v-layout row wrap :class="`pa-2 project ${occurence.status}`">
           <v-flex xs12 md6  class="pl-2">
             <div class="caption grey--text">Subject</div>
-            <div>{{ project.title }}</div>
+            <div>{{ occurence.subject }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Complainant</div>
-            <div>{{ project.person }}</div>
+            <div class="caption grey--text">Particulars of Offence</div>
+            <div>{{ occurence.person }}</div>
           </v-flex>
           <v-flex xs6 sm4 md2>
             <div class="caption grey--text">Time</div>
-            <div>{{ project.due }}</div>
+            <div>{{ occurence.due }}</div>
           </v-flex>
           <v-flex xs2 sm4 md2>
             <div class="right">
-              <v-chip small :class="`${project.status} white--text my-2 caption`">{{ project.status }}</v-chip>
+              <v-chip small :class="`${occurence.status} white--text my-2 caption`">{{ occurence.status }}</v-chip>
             </div>
           </v-flex>
         </v-layout>
@@ -57,21 +57,21 @@
   export default {
     data() {
       return {
-        projects: []
+        occurences: []
       }
     },
     methods: {
       sortBy(prop) {
-        this.projects.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
+        this.occurences.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
       }
     },
     created() {
-      db.collection('projects').onSnapshot(res => {
+      db.collection('occurences').onSnapshot(res => {
         const changes = res.docChanges();
 
         changes.forEach(change => {
           if (change.type === 'added') {
-            this.projects.push({
+            this.occurences.push({
               ...change.doc.data(),
               id: change.doc.id
             })

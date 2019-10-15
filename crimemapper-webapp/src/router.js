@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Dashboard from './views/Dashboard.vue'
 import Cases from './views/Cases.vue'
-import Team from './views/Team.vue'
 import Mapper from './views/Mapper.vue'
+import Picker from './views/Picker.vue'
 import Signup from './components/auth/Signup.vue'
 import Login from './components/auth/Login.vue'
 
@@ -40,17 +40,20 @@ const router = new Router({
       }
     },
     {
+      path: '/picker',
+      name: 'Picker',
+      component: Picker,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/cases',
       name: 'cases',
       component: Cases,
       meta: {
         requiresAuth: true
       }
-    },
-    {
-      path: '/team',
-      name: 'team',
-      component: Team
     },
     {
       path: '/about',

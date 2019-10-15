@@ -1,33 +1,61 @@
 <template>
-  <div class="text-center">
-    <v-dialog v-model="dialog" width="500">
-      <template v-slot:activator="{ on }">
-        <v-btn color="red lighten-2" dark v-on="on">Add new case</v-btn>
-      </template>
+   <!-- <v-dialog v-model="dialog" width="500">
+
       <v-card>
+          <v-form>
         <v-card-title>
           <h2>Pick Location</h2>
         </v-card-title>
         <v-card-text>
-          <div class="google-map" id="mapName"></div>
-        </v-card-text>
+        <div>
+          <Addcase/>-->
+             <div class="google-map" id="mapName">
+                    <b-modal
+                      id="mod"
+                      ref="modal"
+                      title="Submit Your Name"
+                      @show="resetModal"
+                      @hidden="resetModal"
+                      @ok="handleOk"
+                    >
+                      <form ref="form" @submit.stop.prevent="handleSubmit">
+                        <b-form-group
+                          :state="nameState"
+                          label="Name"
+                          label-for="name-input"
+                          invalid-feedback="Name is required"
+                        >
+                          <b-form-input
+                            id="name-input"
+                            v-model="name"
+                            :state="nameState"
+                            required
+                          ></b-form-input>
+                        </b-form-group>
+                      </form>
+                    </b-modal>
+             </div>
+    <!--       </div>
+       </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
           <v-btn right class="success mx-0 mt-3 mr-4" @click="dialog = false">Add Case</v-btn>
           <v-btn class="danger mx-0 mt-3 mr-3" @click="dialog = false">Cancel</v-btn>
         </v-card-actions>
+         </v-form>
       </v-card>
-    </v-dialog>
-  </div>
+    </v-dialog>-->
+
 </template>
 
 <script>
+  import $ from 'jquery'
   export default {
     name: 'Picker',
    data: function () {
      //3.svg - Burglary, 7.svg -  Fraud, 10.svg - Robbery Dru = 5.svg  
     return {
-      mapName: this.name + "-map",
+      //mapName: this.name + "-map",
       markerCoordinates: [{
         latitude: -15.4284383,
         longitude: 28.326578,
@@ -50,13 +78,23 @@
   },
   mounted: function () {
      // InfoWindow content
+     var lskCorrdinate = {lat: -15.4284383,lng: 28.326578}
     this.bounds = new google.maps.LatLngBounds();
     const element = document.getElementById("mapName")
     const mapCentre = this.markerCoordinates[0]
     const options = {
-      center: new google.maps.LatLng(mapCentre.latitude, mapCentre.longitude)
+      center: lskCorrdinate,
+      rotateControl:true,
+      mapTypeControl: true,
+      zoomControl: true,
+      fullscreenControl: true,
+      fullscreenControlControlOptions:{
+        position: google.maps.ControlPosition.LEFT_CENTER
+      }
     }
     this.map = new google.maps.Map(element, options);
+
+    
     this.markerCoordinates.forEach((coord) => {
       const position = new google.maps.LatLng(coord.latitude, coord.longitude);
       const marker = new google.maps.Marker({ 
@@ -64,45 +102,23 @@
         draggable:true,
         icon: coord.icon,
         map: this.map,
-       // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
       });
        marker.addListener('dragend', this.geocodeLocation)
-       marker.addListener('click', function() {
-         var content = '<div id="iw-container">' +
-                      '<div class="iw-title"><strong>DESCRIPTION: </strong>'+coord.description+'</div>' +                     
-                      '<div class="iw-content">' +
-                        '<p>'+
-                         '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div>' +
-                        '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> Longitude: </strong>'+coord.latitude+'</p>'+
-                        '<p><strong>TIME: </strong>'+coord.time+'</p>'+
-                      '</div>' +
-                      '<div class="iw-bottom-gradient"></div>' +
-                    '</div>';
-          // A new Info Window is created and set content
-        var infowindow = new google.maps.InfoWindow({
-          content: content,
-
-          // Assign a maximum value for the width of the infowindow allows
-          // greater control over the various content elements
-          maxWidth: 320
-        })
-          infowindow.open(map, marker);
-        });
+     
       this.markers.push(marker)
-      this.map.fitBounds(this.bounds.extend(position))
-
-       
+      this.map.fitBounds(this.bounds.extend(position))   
     });
-     var map = new google.maps.Map(document.getElementById("map-canvas"));
+    var map = new google.maps.Map(document.getElementById("map-canvas"));
 
    
     // This event expects a click on a marker
  
     google.maps.event.addListener(map, "rightclick", function(event) {
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
+        window.lat = event.latLng.lat();
+        window.lng = event.latLng.lng();
         // populate yor box/field with lat, lng
-        alert("Lat=" + lat + "; Lng=" + lng);
+       // this.$refs.dialog.show();
+        alert("Lat=" + lat +"="+ window.lat+ "; Lng=" + lng +"="+ window.lng);
     });
 
     // Event that closes the Info Window with a click on the map
@@ -112,25 +128,19 @@
   },
    methods: {
       geocodeLocation (event) {
+        //this.$bvModal.show(mod);
+       // this.$refs['modal'].show();
         this.map.panTo(event.latLng)
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
+       // var lat = event.latLng.lat();
+       // var lng = event.latLng.lng();
+        window.lat = event.latLng.lat();
+        window.lng = event.latLng.lng();
         if (confirm('Would you lik to submit the Coordinates')) {
-            alert('Case added');
+            //alert('Case added');
         }
       },
-      /*
-      moveMarker () {
-        var place = this.autocomplete.getPlace()
-        var location = place.geometry && place.geometry.location
-        if (location) {
-          this.place = place
-          this.map.panTo(location)
-          this.marker.setPosition(location)
-          this.$refs.info.showAddress(place)
-        }
-      }*/
     }
+
 };
 </script>
 

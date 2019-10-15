@@ -9,9 +9,14 @@
           <h2>Add Case</h2>
         </v-card-title>
         <v-card-text>
-          <v-form>
-            <v-text-field label="Subject" v-model="subject"></v-text-field>
-            <v-textarea label="Particulars of Offense" v-model="subject"></v-textarea>
+          <v-form ref="form">
+            <v-select
+              v-model="subject"
+              :items="items"
+              :rules="[v => !!v || 'Subject is required']"
+              label="SUBJECT"
+              required></v-select>
+            <v-textarea label="Particulars of Offense" v-model="particularOfOffence"></v-textarea>
             <v-menu
                 v-model="menu2"
                 :close-on-content-click="false"
@@ -31,14 +36,17 @@
                 </template>
                 <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
             </v-menu>
-            <v-textarea label="Particulars of Offense" v-model="subject"></v-textarea>
-            <v-btn center class="success mx-0 mt-3">Add Location</v-btn>
+            <p class="red-text center" v-if="feedback">{{feedback}}</p>
+           
           </v-form>
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-          <v-btn right class="success mx-0 mt-3 mr-4" @click="dialog = false">Add Case</v-btn>
-          <v-btn class="danger mx-0 mt-3 mr-3" @click="dialog = false">Cancel</v-btn>
+       <!--   <v-btn right class="success mx-0 mt-3 mr-4" @click="dialog = false">Add Case</v-btn>
+          <v-btn class="danger mx-0 mt-3 mr-3" @click="dialog = false">Cancel</v-btn>-->
+            <v-btn right class="success mx-0 mt-3 mr-4" @click="validate">Add Case</v-btn>
+
+            <v-btn color="error" class="mr-4" @click="reset">Clear</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -50,6 +58,7 @@ import db from "@/firebase/fb";
 import firebase from 'firebase';
 require('firebase/auth')
     export default {
+      name: 'Addcase',
     data: () => ({
         date: new Date().toISOString().substr(0, 10),
         menu2: false,
@@ -57,38 +66,34 @@ require('firebase/auth')
         subject: "",
         occurence: "",
         due: "",
+        items: ["== SELECT  SUBJECT ==",1, 2, 3, 5],
     }),
-     validate() {
-      if (this.$refs.form.validate()) {
-          let ref = db.collection("occurences").doc(this.serviceNumber);
-          ref.get().then(doc => {
-            if (doc.exits) {
-              this.feedback =
-                "Officer already registered with this service number";
-            } else {
-              firebase.auth().createUserWithEmailAndPassword(this.email, this.passWord)
-              .then(cred =>{
-                ref.set({
+      methods: {
+        validate() {
+          alert("Cliked");
+          if (this.$refs.form.validate()) {
+              db.collection("occurences").add({
                   subject: this.subject,
-                  occurence: this.occurence,
-                  obNumber: this.obNumber,
-                  timeStamp: this.timeStamp,
-                  particularOfOffence: this.particularOfOffence,
-                  complainantId: this.complainantId,
-                  accusedId: this.accusedId,
-                  reportingOfficer: this.reportingOfficer,
-                })
-              }).then(() =>{
-                this.$router.push({name: 'Dashboard'})
-              }).catch(err => {
-                 // console.log(err)
-                  this.feedback = err.message;
-                });
-            }
-          });
-        } else {
-          this.feedback = "This service number can not be empty";
-        }
-    },
+                  icon: this.subject,
+                  place: "",
+                  latitude: window.lat,
+                  longitude: window.lng,
+                  particularOfOffence: this.particularOfOffence
+              })
+              .then(function(docRef) {
+                  console.log("Document written with ID: ", docRef.id);
+                  this.$router.push({name: 'Dashboard'})
+              })
+              .catch(function(error) {
+                  console.error("Error adding document: ", error);
+              });    
+          } else {
+            this.feedback = "This service number can not be empty";
+          }
+        },
+          reset() {
+            this.$refs.form.reset();
+          },
+      }
 }
 </script>

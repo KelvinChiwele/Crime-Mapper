@@ -20,17 +20,17 @@
     
     this.bounds = new google.maps.LatLngBounds();
     const element = document.getElementById(this.mapName)
-    const mapCentre = this.markerCoordinates[0]
     const options = {
       center: new google.maps.LatLng(-15.6026746, 28.3380676)
     }
     this.map = new google.maps.Map(element, options);
 
-    db.collection('crimes').get().then(crimes =>{
+    db.collection('occurences').get().then(crimes =>{
       crimes.docs.forEach(doc => {        
         let coord = doc.data();
 
-        const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
+        //const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
+        const position = new google.maps.LatLng(coord.latitude, coord.longitude);
         const marker = new google.maps.Marker({ 
           position,
           icon: coord.icon +".svg",
@@ -38,23 +38,23 @@
           // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
           });
           marker.addListener('click', function() {
-          var content = '<div id="iw-container">' +
-                        '<div class="iw-title"><strong>DESCRIPTION: </strong>'+coord.description+'</div>' +                     
-                        '<div class="iw-content">' +
-                          '<p>'+
-                          '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div>' +
-                          '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> Longitude: </strong>'+coord.latitude+'</p>'+
-                          '<p><strong>TIME: </strong>'+coord.time+'</p>'+
-                        '</div>' +
-                        '<div class="iw-bottom-gradient"></div>' +
-                      '</div>';
-            // A new Info Window is created and set content
-          var infowindow = new google.maps.InfoWindow({
-            content: content,
-            // Assign a maximum value for the width of the infowindow allows
-            // greater control over the various content elements
-            maxWidth: 320
-          })
+            var content = '<div id="iw-container">' +
+                          '<div class="iw-title"><strong>DESCRIPTION: </strong>'+coord.description+'</div>' +                     
+                          '<div class="iw-content">' +
+                            '<p>'+
+                            '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div>' +
+                            '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> Longitude: </strong>'+coord.latitude+'</p>'+
+                            '<p><strong>TIME: </strong>'+coord.time+'</p>'+
+                          '</div>' +
+                          '<div class="iw-bottom-gradient"></div>' +
+                        '</div>';
+              // A new Info Window is created and set content
+            var infowindow = new google.maps.InfoWindow({
+              content: content,
+              // Assign a maximum value for the width of the infowindow allows
+              // greater control over the various content elements
+              maxWidth: 320
+            })
             infowindow.open(map, marker);
           });
           this.markers.push(marker)

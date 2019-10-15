@@ -23,9 +23,6 @@
                 <v-avatar size="100">
                     <img src="/dp.jpg" alt="">
                 </v-avatar>
-                <p class="white--text subheading mt-1" align-center>
-                    TechArt
-                </p>
             </v-flex>
             <v-flex class="mt-4 mb-3">
                 <Addcase/>
@@ -49,6 +46,7 @@
 
 <script>
 import Addcase from './Addcase'
+import Picker from './Picker'
 import firebase from 'firebase'
 export default {
     components: {Addcase},
@@ -57,10 +55,10 @@ export default {
             drawer: false,
             user:'',
             links:[
-                {icon: 'dashboard', text: "Dashboard", route: '/'},
+                {icon: 'dashboard', text: "OB Book", route: '/'},
                 {icon: 'map', text: "Crime Map", route: '/mapper'},
                 {icon: 'folder', text: "Cases", route: '/cases'},
-                {icon: 'person', text: "Team", route: '/team'},
+                {icon: 'person', text: "Location Picker", route: '/picker'},
             ]
         }
     },
