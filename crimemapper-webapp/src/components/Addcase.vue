@@ -16,6 +16,7 @@
               :rules="[v => !!v || 'Subject is required']"
               label="SUBJECT"
               required></v-select>
+            <v-text-field v-model="place" label="Place of Occurence" required></v-text-field>
             <v-textarea label="Particulars of Offense" v-model="particularOfOffence"></v-textarea>
             <v-menu
                 v-model="menu2"
@@ -65,17 +66,16 @@ require('firebase/auth')
         dialog: false,
         subject: "",
         occurence: "",
-        due: "",
-        items: ["== SELECT  SUBJECT ==",1, 2, 3, 5],
+        place: "",
+        items: ["== SELECT  SUBJECT ==","assault", "burglary", "drugs", "robbery"],
     }),
       methods: {
         validate() {
-          alert("Cliked");
           if (this.$refs.form.validate()) {
               db.collection("occurences").add({
                   subject: this.subject,
                   icon: this.subject,
-                  place: "",
+                  place: this.place,
                   latitude: window.lat,
                   longitude: window.lng,
                   particularOfOffence: this.particularOfOffence

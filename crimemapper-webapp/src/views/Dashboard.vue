@@ -22,30 +22,13 @@
           <span>Sort by project author</span>
         </v-tooltip>
       </v-layout>
-      
-      <v-card text v-for="occurence in occurences" :key="occurence.subject">
-        <v-layout row wrap :class="`pa-2 project ${occurence.status}`">
-          <v-flex xs12 md6  class="pl-2">
-            <div class="caption grey--text">Subject</div>
-            <div>{{ occurence.subject }}</div>
-          </v-flex>
-          <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Particulars of Offence</div>
-            <div>{{ occurence.person }}</div>
-          </v-flex>
-          <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Time</div>
-            <div>{{ occurence.due }}</div>
-          </v-flex>
-          <v-flex xs2 sm4 md2>
-            <div class="right">
-              <v-chip small :class="`${occurence.status} white--text my-2 caption`">{{ occurence.status }}</v-chip>
-            </div>
-          </v-flex>
-        </v-layout>
-        <v-divider></v-divider>
-      </v-card>
 
+      <v-data-table
+        :headers="headers"
+        :items="occurences"
+        :items-per-page="5"
+        class="elevation-1"
+      ></v-data-table>
     </v-container>
    
   </div>
@@ -57,14 +40,18 @@
   export default {
     data() {
       return {
-        occurences: []
+        occurences: [],
+         headers: [
+          { text: 'Subject', 
+            value: 'subject',    
+            align: 'left',
+            sortable: true,},
+          { text: 'Particulars of Offence', value: 'particularOfOffence' },
+          { text: 'Time', value: 'time' },
+        ],
       }
     },
-    methods: {
-      sortBy(prop) {
-        this.occurences.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
-      }
-    },
+ 
     created() {
       db.collection('occurences').onSnapshot(res => {
         const changes = res.docChanges();
