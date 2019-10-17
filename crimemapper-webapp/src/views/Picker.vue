@@ -1,51 +1,5 @@
 <template>
-   <!-- <v-dialog v-model="dialog" width="500">
-
-      <v-card>
-          <v-form>
-        <v-card-title>
-          <h2>Pick Location</h2>
-        </v-card-title>
-        <v-card-text>
-        <div>
-          <Addcase/>-->
-             <div class="google-map" id="mapName">
-                    <b-modal
-                      id="mod"
-                      ref="modal"
-                      title="Submit Your Name"
-                      @show="resetModal"
-                      @hidden="resetModal"
-                      @ok="handleOk"
-                    >
-                      <form ref="form" @submit.stop.prevent="handleSubmit">
-                        <b-form-group
-                          :state="nameState"
-                          label="Name"
-                          label-for="name-input"
-                          invalid-feedback="Name is required"
-                        >
-                          <b-form-input
-                            id="name-input"
-                            v-model="name"
-                            :state="nameState"
-                            required
-                          ></b-form-input>
-                        </b-form-group>
-                      </form>
-                    </b-modal>
-             </div>
-    <!--       </div>
-       </v-card-text>
-        <v-card-actions>
-          <div class="flex-grow-1"></div>
-          <v-btn right class="success mx-0 mt-3 mr-4" @click="dialog = false">Add Case</v-btn>
-          <v-btn class="danger mx-0 mt-3 mr-3" @click="dialog = false">Cancel</v-btn>
-        </v-card-actions>
-         </v-form>
-      </v-card>
-    </v-dialog>-->
-
+      <div class="google-map" id="mapName"></div>
 </template>
 
 <script>
@@ -61,14 +15,14 @@
         longitude: 28.326578,
         place: "Unknown Location",
         time: "9-24-2019 @ 7:00 PM",
-        icon: "7.svg",
+        icon: "burglary.svg",
         description: "Fraud",
       },{
         latitude: -15.4074378,
         longitude: 28.3348543,
         time: "9-24-2019 @ 7:00 PM",
         place: "Yalelo Authorized Reseller",
-        icon: "3.svg",
+        icon: "burglary.svg",
         description: "Burglary",
       },],
       map: null,
@@ -135,6 +89,7 @@
        // var lng = event.latLng.lng();
         window.lat = event.latLng.lat();
         window.lng = event.latLng.lng();
+        
         if (confirm('Would you lik to submit the Coordinates')) {
             //alert('Case added');
         }

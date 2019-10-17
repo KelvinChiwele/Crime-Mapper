@@ -76,6 +76,7 @@ require('firebase/auth')
                   subject: this.subject,
                   icon: this.subject,
                   place: this.place,
+                  date: this.date,
                   latitude: window.lat,
                   longitude: window.lng,
                   particularOfOffence: this.particularOfOffence

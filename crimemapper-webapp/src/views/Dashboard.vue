@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <v-container class="my-5 ">
-      <h1 class="subheading grey--text">Dashboard</h1>
+      <h1 class="subheading grey--text">OB Book</h1>
       <v-layout row justify-start class="mb-3">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -27,6 +27,7 @@
         :headers="headers"
         :items="occurences"
         :items-per-page="5"
+        show-select
         class="elevation-1"
       ></v-data-table>
     </v-container>
@@ -47,7 +48,7 @@
             align: 'left',
             sortable: true,},
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
-          { text: 'Time', value: 'time' },
+          { text: 'Date of Occurence', value: 'date' },
         ],
       }
     },
@@ -70,24 +71,5 @@
 </script>
 
 <style>
-
-.project.complete{
-  border-left: 4px solid #3cd1c2;
-}
-.project.ongoing{
-  border-left: 4px solid #ffaa2c;
-}
-.project.overdue{
-  border-left: 4px solid #f83e70;
-}
-.v-chip.complete{
-  background: #3cd1c2;
-}
-.v-chip.ongoing{
-  background: #ffaa2c;
-}
-.v-chip.overdue{
-  background: #f83e70;
-}
 
 </style>
