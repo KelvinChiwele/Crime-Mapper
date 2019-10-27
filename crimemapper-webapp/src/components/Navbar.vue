@@ -58,7 +58,8 @@ export default {
                 {icon: 'dashboard', text: "OB Book", route: '/'},
                 {icon: 'map', text: "Crime Map", route: '/mapper'},
                 {icon: 'folder', text: "Cases", route: '/cases'},
-                {icon: 'person', text: "Location Picker", route: '/picker'},
+                {icon: 'assignment', text: "Crime Register", route: '/crimeRegister'},
+                {icon: 'room', text: "Location Picker", route: '/picker'},
             ]
         }
     },

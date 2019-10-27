@@ -4,6 +4,7 @@ import Dashboard from './views/Dashboard.vue'
 import Cases from './views/Cases.vue'
 import Mapper from './views/Mapper.vue'
 import Picker from './views/Picker.vue'
+import CrimeRegister from './views/CrimeRegister.vue'
 import Signup from './components/auth/Signup.vue'
 import Login from './components/auth/Login.vue'
 
@@ -43,6 +44,14 @@ const router = new Router({
       path: '/picker',
       name: 'Picker',
       component: Picker,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/crimeRegister',
+      name: 'CrimeRegister',
+      component: CrimeRegister,
       meta: {
         requiresAuth: true
       }
