@@ -10,34 +10,22 @@
          <v-text-field v-model="passWord" :rules="nameRules" label="Password" required></v-text-field>
         <p class="red-text center" v-if="feedback">{{feedback}}</p>
         <v-select
-          v-model="select"
-          :items="items"
-          :rules="[v => !!v || 'Division is required']"
-          label="--Select Division--"
+          v-model="department"
+          :items="departments"
+          :rules="[v => !!v || 'Departments is required']"
+          label="--Select Department--"
           required></v-select>
         <v-select
-          v-model="select"
-          :items="items"
-          :rules="[v => !!v || 'District is required']"
-          label="--Select District--"
-          required></v-select>
-        <v-select
-          v-model="select"
-          :items="items"
-          :rules="[v => !!v || 'Post is required']"
-          label="--Select Post--"
-          required></v-select>
-        <v-select
-          v-model="select"
-          :items="items"
-          :rules="[v => !!v || 'Role is required']"
-          label="--Select Role--"
-          required></v-select>
-        <v-select
-          v-model="select"
-          :items="items"
-          :rules="[v => !!v || 'Rank is required']"
+          v-model="rank"
+          :items="ranks"
+          :rules="[v => !!v || 'Ranks is required']"
           label="--Select Rank--"
+          required></v-select>
+        <v-select
+          v-model="position"
+          :items="positions"
+          :rules="[v => !!v || 'Position is required']"
+          label="--Select Position--"
           required></v-select>
           <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Register</v-btn>
           <v-btn color="error" class="mr-4" @click="reset">Clear</v-btn>
@@ -58,10 +46,8 @@ export default {
     passWord: null,
     firstName: null,
     lastName: null,
-    division: null,
-    district: null,
-    post: null,
-    role: null,
+    district: "Lusaka",
+    position: null,
     rank: null,
     phoneNumber: null,
     feedback: null,
@@ -78,10 +64,10 @@ export default {
       v => !!v || "E-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
-    select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-    checkbox: false,
-
+    stations: ["Chawama", "Chelstone", "Chilenje", "Emmasdale", "Kabwata" , "Kanyama", "Lusaka Central", "Matero", "Woodlands"],
+    departments: ["Criminal Investigations", "General Duties", "Traffic"],
+    ranks: ["IG", "DIG-1", "DIG-2", "COMPOL", "SACP" , "ACP", "S/SUPT", "SUPT", "C/INSP", "INSP", "SGT", "CONST"],
+    positions: ["CIO", "Investigator", "Records Officer", "Secretary"],
   }),
 
   methods: {
@@ -100,7 +86,7 @@ export default {
                   lastName: this.lastName,
                   division: this.division,
                   district: this.district,
-                  post: this.post,
+                  position: this.position,
                   role: this.role,
                   rank: this.rank,
                   phoneNumber: this.phoneNumber,

@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <v-container class="my-5 ">
-      <h1 class="subheading grey--text">OB Book</h1>
+      <h1 class="subheading grey--text">Crime Resgister</h1>
       <v-layout row justify-start class="mb-3">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -48,7 +48,8 @@
             sortable: true,},
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
           { text: 'Date of Occurence', value: 'date' },
-          { text: 'Actions', value: 'action', sortable: false },
+          { text: 'Date of Result', value: 'date' },
+          { text: 'Status', value: 'action'},
         ],
     }),
  

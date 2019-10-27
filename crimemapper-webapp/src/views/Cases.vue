@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <v-container class="my-5 ">
-      <h1 class="subheading grey--text">OB Book</h1>
+      <h1 class="subheading grey--text">Cases Pending Review</h1>
       <v-layout row justify-start class="mb-3">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -67,7 +67,7 @@
         <v-icon
           small
           class="mr-2"
-          @click="editItem(item)">check</v-icon>
+          @click="editItem(item)">visibility</v-icon>
     </template>
       
       </v-data-table>
@@ -92,7 +92,7 @@
             sortable: true,},
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
           { text: 'Date of Occurence', value: 'date' },
-          { text: 'Actions', value: 'action', sortable: false },
+          { text: 'Action', value: 'action', sortable: false },
         ],
         investigator: "",
         editedIndex: -1,
