@@ -25,7 +25,7 @@
     }
     this.map = new google.maps.Map(element, options);
 
-    db.collection('occurences').get().then(crimes =>{
+    db.collection('crimes').get().then(crimes =>{
       crimes.docs.forEach(doc => {        
         let coord = doc.data();
 

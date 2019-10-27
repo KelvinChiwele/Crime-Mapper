@@ -46,7 +46,6 @@
 
 <script>
 import Addcase from './Addcase'
-import Picker from './Picker'
 import firebase from 'firebase'
 export default {
     components: {Addcase},
