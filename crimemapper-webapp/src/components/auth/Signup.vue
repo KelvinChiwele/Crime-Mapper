@@ -3,30 +3,49 @@
    <v-card-title>Officer Registration</v-card-title>
     <v-card-text>
       <v-form  ref="form" v-model="valid" lazy-validation>
-         <v-text-field v-model="serviceNumber" :rules="serviceNumberRules" label="Service Number" required></v-text-field>
-        <v-text-field v-model="firstName" :rules="nameRules" label="First Name" required></v-text-field>
-        <v-text-field v-model="lastName" :rules="nameRules" label="Last Name" required></v-text-field>
+        <v-row>
+          <v-col cols="12" sm="6" md="6">
+            <v-text-field v-model="firstName" :rules="nameRules" label="First Name" required></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6" md="6">
+            <v-text-field v-model="lastName" :rules="nameRules" label="Last Name" required></v-text-field>
+           </v-col>
+        </v-row>
+         <v-row>
+          <v-col cols="12" sm="6" md="6">
+            <v-text-field v-model="serviceNumber" :rules="serviceNumberRules" label="Service Number" required></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6" md="6">
+             <v-select
+                v-model="department"
+                :items="departments"
+                :rules="[v => !!v || 'Departments is required']"
+                label="--Select Department--"
+                required></v-select>
+           </v-col>
+        </v-row>
+       
+        <v-row>
+          <v-col cols="12" sm="6" md="6">
+            <v-select
+              v-model="rank"
+              :items="ranks"
+              :rules="[v => !!v || 'Ranks is required']"
+              label="--Select Rank--"
+              required></v-select>
+          </v-col>
+          <v-col cols="12" sm="6" md="6">
+            <v-select
+              v-model="position"
+              :items="positions"
+              :rules="[v => !!v || 'Position is required']"
+              label="--Select Position--"
+              required></v-select>
+          </v-col>
+        </v-row>  
         <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
          <v-text-field v-model="passWord" :rules="nameRules" label="Password" required></v-text-field>
         <p class="red-text center" v-if="feedback">{{feedback}}</p>
-        <v-select
-          v-model="department"
-          :items="departments"
-          :rules="[v => !!v || 'Departments is required']"
-          label="--Select Department--"
-          required></v-select>
-        <v-select
-          v-model="rank"
-          :items="ranks"
-          :rules="[v => !!v || 'Ranks is required']"
-          label="--Select Rank--"
-          required></v-select>
-        <v-select
-          v-model="position"
-          :items="positions"
-          :rules="[v => !!v || 'Position is required']"
-          label="--Select Position--"
-          required></v-select>
           <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Register</v-btn>
           <v-btn color="error" class="mr-4" @click="reset">Clear</v-btn>
       </v-form>
@@ -48,8 +67,8 @@ export default {
     lastName: null,
     district: "Lusaka",
     position: null,
+    department: null,
     rank: null,
-    phoneNumber: null,
     feedback: null,
     serviceNumberRules: [
       v => !!v || "Service Number is required",
@@ -89,7 +108,6 @@ export default {
                   position: this.position,
                   role: this.role,
                   rank: this.rank,
-                  phoneNumber: this.phoneNumber,
                   userId: user.uid
                 })
               }).then(() =>{
