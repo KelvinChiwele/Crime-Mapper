@@ -69,32 +69,32 @@ require('firebase/auth')
         place: "",
         items: ["== SELECT  SUBJECT ==","assault", "burglary", "drugs", "robbery"],
     }),
-      methods: {
-        validate() {
-          if (this.$refs.form.validate()) {
-              db.collection("occurences").add({
-                  subject: this.subject,
-                  icon: this.subject,
-                  place: this.place,
-                  date: this.date,
-                  latitude: window.lat,
-                  longitude: window.lng,
-                  particularOfOffence: this.particularOfOffence
-              })
-              .then(function(docRef) {
-                  console.log("Document written with ID: ", docRef.id);
-                  this.$router.push({name: 'Dashboard'})
-              })
-              .catch(function(error) {
-                  console.error("Error adding document: ", error);
-              });    
-          } else {
-            this.feedback = "This service number can not be empty";
-          }
-        },
-          reset() {
-            this.$refs.form.reset();
-          },
-      }
+    methods: {
+      validate() {
+        if (this.$refs.form.validate()) {
+            db.collection("occurences").add({
+                subject: this.subject,
+                icon: this.subject,
+                place: this.place,
+                date: this.date,
+                latitude: window.lat,
+                longitude: window.lng,
+                particularOfOffence: this.particularOfOffence
+            })
+            .then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+                this.$router.push({name: 'Dashboard'})
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });    
+        } else {
+          this.feedback = "This service number can not be empty";
+        }
+      },
+      reset() {
+        this.$refs.form.reset();
+      },
+    }
 }
 </script>

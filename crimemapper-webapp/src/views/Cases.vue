@@ -92,6 +92,7 @@
             sortable: true,},
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
           { text: 'Date of Occurence', value: 'date' },
+          { text: 'Status', value: 'dat' },
           { text: 'Action', value: 'action', sortable: false },
         ],
         investigator: "",
@@ -162,8 +163,24 @@
       save () {
         if (this.editedIndex > -1) {
           Object.assign(this.occurences[this.editedIndex], this.editedItem)
+            db.collection("crimes").add({
+                subject: this.editedItem.subject,
+                icon: this.editedItem.subject,
+                place: this.editedItem.place,
+                date: this.editedItem.date,
+                latitude: this.editedItem.latitude,
+                longitude: this.editedItem.longitude,
+                investigator: this.investigator,
+                status:"Approved",
+                particularOfOffence: this.editedItem.particularOfOffence,
+            }).then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+                this.$router.push({name: 'Dashboard'})
+            }).catch(function(error) {
+                console.error("Error adding document: ", error);
+            });    
         } else {
-          this.occurences.push(this.editedItem)
+          this.feedback = "This service number can not be empty";
         }
         this.close()
       },

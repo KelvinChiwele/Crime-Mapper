@@ -54,7 +54,7 @@
     }),
  
     created() {
-      db.collection('occurences').onSnapshot(res => {
+      db.collection('crimes').onSnapshot(res => {
         const changes = res.docChanges();
         changes.forEach(change => {
           if (change.type === 'added') {
