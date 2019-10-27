@@ -27,9 +27,43 @@
         :headers="headers"
         :items="occurences"
         :items-per-page="5"
-        show-select
         class="elevation-1"
-      ></v-data-table>
+      >
+
+      <template v-slot:top>
+      <v-toolbar flat color="white">
+          <v-dialog v-model="dialog" max-width="500px">
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ formTitle }}</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                    <v-text-field readonly v-model="editedItem.subject" label="Dessert name"></v-text-field>
+                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="Calories"></v-text-field>
+                    <v-text-field readonly v-model="editedItem.date" label="Fat (g)"></v-text-field>
+                </v-container>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="save">Approve</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
+      
+      <template v-slot:item.action="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="editItem(item)">check</v-icon>
+    </template>
+      
+      </v-data-table>
+
     </v-container>
    
   </div>
@@ -39,8 +73,8 @@
   import db from '@/firebase/fb'
 
   export default {
-    data() {
-      return {
+    data: () => ({
+        dialog: false,
         occurences: [],
          headers: [
           { text: 'Subject', 
@@ -49,14 +83,21 @@
             sortable: true,},
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
           { text: 'Date of Occurence', value: 'date' },
+          { text: 'Actions', value: 'action', sortable: false },
         ],
-      }
-    },
+        editedIndex: -1,
+        editedItem: {
+        name: '',
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
+    }),
  
     created() {
       db.collection('occurences').onSnapshot(res => {
         const changes = res.docChanges();
-
         changes.forEach(change => {
           if (change.type === 'added') {
             this.occurences.push({
@@ -66,7 +107,46 @@
           }  
         })
       })
-    }
+    },
+
+    
+    computed: {
+      formTitle () {
+        return this.editedIndex === -1 ? 'New Item' : 'Case Details'
+      },
+    },
+    watch: {
+      dialog (val) {
+        val || this.close()
+      },
+    },
+
+      methods: {
+  
+      editItem (item) {
+        this.editedIndex = this.occurences.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+      },
+
+      close () {
+        this.dialog = false
+        setTimeout(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        }, 300)
+      },
+
+      save () {
+        if (this.editedIndex > -1) {
+          Object.assign(this.occurences[this.editedIndex], this.editedItem)
+        } else {
+          this.occurences.push(this.editedItem)
+        }
+        this.close()
+      },
+    },
+    
   }
 </script>
 
