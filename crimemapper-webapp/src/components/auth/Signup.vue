@@ -66,6 +66,7 @@ export default {
     firstName: null,
     lastName: null,
     district: "Lusaka",
+    division: "Lusaka",
     position: null,
     department: null,
     rank: null,
@@ -105,10 +106,10 @@ export default {
                   lastName: this.lastName,
                   division: this.division,
                   district: this.district,
+                  department: this.department,
                   position: this.position,
-                  role: this.role,
                   rank: this.rank,
-                  userId: user.uid
+                 // userId: user.uid
                 })
               }).then(() =>{
                 this.$router.push({name: 'Dashboard'})

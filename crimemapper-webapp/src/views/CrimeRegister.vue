@@ -49,7 +49,7 @@
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
           { text: 'Date of Occurence', value: 'date' },
           { text: 'Date of Result', value: 'date' },
-          { text: 'Status', value: 'action'},
+          { text: 'Status', value: 'status'},
         ],
     }),
  
