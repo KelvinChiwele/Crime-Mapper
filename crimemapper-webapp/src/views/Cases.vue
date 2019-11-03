@@ -2,34 +2,28 @@
   <div class="dashboard">
     <v-container class="my-5 ">
       <h1 class="subheading grey--text">Cases Pending Review</h1>
-      <v-layout row justify-start class="mb-3">
-        <v-tooltip top>
-          <template v-slot:activator="{ on }">
-          <v-btn small text color="grey" @click="sortBy('title')" v-on="on">
-            <v-icon small left>folder</v-icon>
-            <span class="caption text-lowercase">By subject</span>
-          </v-btn>
-          </template>
-          <span>Sort by project name</span>
-        </v-tooltip>
-        <v-tooltip top>
-           <template v-slot:activator="{ on }">
-            <v-btn small text color="grey" @click="sortBy('person')" v-on="on">
-              <v-icon small left>person</v-icon>
-              <span class="caption text-lowercase">By Person</span>
-            </v-btn>
-          </template>
-          <span>Sort by project author</span>
-        </v-tooltip>
-      </v-layout>
+      
+        <v-card>
 
-      <v-data-table
-        :headers="headers"
-        :items="occurences"
-        :items-per-page="5"
-        class="elevation-1"
-      >
+            <v-card-title>
+            Cases Pending Review
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-card-title>
 
+
+            <v-data-table
+              :headers="headers"
+              :items="occurences"
+              :items-per-page="5"
+              :search="search"
+              class="elevation-1">      
       <template v-slot:top>
       <v-toolbar flat color="white">
           <v-dialog v-model="dialog" max-width="500px">
@@ -64,13 +58,14 @@
       </template>
       
       <template v-slot:item.action="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="editItem(item)">visibility</v-icon>
-    </template>
-      
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)">visibility</v-icon>
+      </template>
+        
       </v-data-table>
+             </v-card>
 
     </v-container>
    
@@ -85,6 +80,7 @@
         dialog: false,
         occurences: [],
         investigators: [],
+        search: '',
          headers: [
           { text: 'Subject', 
             value: 'subject',    
