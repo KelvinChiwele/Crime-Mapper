@@ -33,9 +33,9 @@
               </v-card-title>
               <v-card-text>
                 <v-container>
-                    <v-text-field readonly v-model="editedItem.subject" label="Dessert name"></v-text-field>
-                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="Calories"></v-text-field>
-                    <v-text-field readonly v-model="editedItem.date" label="Fat (g)"></v-text-field>
+                    <v-text-field readonly v-model="editedItem.subject" label="Subject"></v-text-field>
+                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="Particular of Offence"></v-text-field>
+                    <v-text-field readonly v-model="editedItem.date" label="Date"></v-text-field>
                     <v-select
                       v-model="investigator"
                       :items="investigators"

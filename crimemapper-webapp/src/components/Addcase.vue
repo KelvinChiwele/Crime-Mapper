@@ -10,6 +10,22 @@
         </v-card-title>
         <v-card-text>
           <v-form ref="form">
+            <v-row>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field v-model="firstName" :rules="nameRules" label="First Name" required></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field v-model="lastName" :rules="nameRules" label="Last Name" required></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field v-model="nrc" :rules="nameRules" label="NRC" required></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="6">
+                <v-text-field v-model="residence" :rules="nameRules" label="Residence" required></v-text-field>
+              </v-col>
+            </v-row>
             <v-select
               v-model="subject"
               :items="items"
@@ -64,6 +80,10 @@ require('firebase/auth')
         date: new Date().toISOString().substr(0, 10),
         menu2: false,
         dialog: false,
+        firstName: "",
+        lastName: "",
+        nrc: "",
+        residence: "",
         subject: "",
         occurence: "",
         place: "",
