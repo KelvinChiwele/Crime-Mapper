@@ -21,7 +21,7 @@
         <v-layout column align-center>
             <v-flex class="mt-5">
                 <v-avatar size="100">
-                    <img src="/dp.jpg" alt="">
+                    <img src="/zp.png" alt="">
                 </v-avatar>
             </v-flex>
             <v-flex class="mt-4 mb-3">

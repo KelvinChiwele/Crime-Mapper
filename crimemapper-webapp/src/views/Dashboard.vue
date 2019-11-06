@@ -148,7 +148,10 @@
             align: 'left',
             sortable: true,},
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
+          { text: 'Location', value: 'place' },
           { text: 'Date of Occurence', value: 'date' },
+          { text: 'Suspect', value: 'defendant' },
+          { text: 'Status', value: 'status' },
           { text: 'Actions', value: 'action', sortable: false },
         ],
          recovered: [
