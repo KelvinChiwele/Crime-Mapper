@@ -1,10 +1,10 @@
 <template>
   <div class="dashboard">
     <v-container class="my-5 ">
-      <h1 class="subheading grey--text">OB Book</h1>
+      <h1 class="subheading grey--text">Occurence Book</h1>
         <v-card>
             <v-card-title>
-            OB Book
+            Occurence Book
             <v-spacer></v-spacer>
             <v-text-field
               v-model="search"
@@ -61,10 +61,10 @@
                                     color="primary"
                                     dark
                                     class="ma-2"
-                                    @click="dialog2 = !dialog2">Add Defendant</v-btn>
-                                   <v-subheader>Defendant</v-subheader>
+                                    @click="dialog2 = !dialog2">Add Suspect</v-btn>
+                                   <v-subheader>Suspects</v-subheader>
                                      <v-data-table
-                                      :headers="recovered"
+                                      :headers="suspects"
                                       :items="suspects"
                                       :items-per-page="5"
                                       :search="search"

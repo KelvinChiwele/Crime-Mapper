@@ -43,8 +43,8 @@
                           '<div class="iw-content">' +
                             '<p>'+
                             '<div class="iw-title"><strong>PLACE: </strong>'+coord.place+'</div>' +
-                            '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> Longitude: </strong>'+coord.latitude+'</p>'+
-                            '<p><strong>TIME: </strong>'+coord.date+'</p>'+
+                            '<br><strong>Latitude: </strong>'+coord.latitude+'<strong> <br>Longitude: </strong>'+coord.latitude+'</p>'+
+                            '<p><strong>Date: </strong>'+coord.date+'</p>'+
                           '</div>' +
                           '<div class="iw-bottom-gradient"></div>' +
                         '</div>';
