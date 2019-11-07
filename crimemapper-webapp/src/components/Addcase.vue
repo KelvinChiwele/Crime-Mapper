@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
-        <v-btn color="red lighten-2" dark v-on="on">Add new case</v-btn>
+        <v-btn color="green lighten-2" dark v-on="on">Add new case</v-btn>
       </template>
       <v-card>
         <v-card-title>

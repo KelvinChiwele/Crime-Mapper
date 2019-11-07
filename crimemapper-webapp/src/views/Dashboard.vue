@@ -50,11 +50,11 @@
                              <v-row>
                                 <v-col cols="6" sm="4" md="4"> 
                                   <v-subheader>Complainant</v-subheader>
-                                    <v-text-field readonly v-model="editedItem.subject" label="First Name"></v-text-field>
-                                    <v-text-field readonly v-model="editedItem.subject" label="Last Name"></v-text-field>
-                                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="NRC"></v-text-field>
-                                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="Age"></v-text-field>
-                                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="Residential Address"></v-text-field>
+                                    <v-text-field readonly v-model="firstName" label="First Name"></v-text-field>
+                                    <v-text-field readonly v-model="lastName" label="Last Name"></v-text-field>
+                                    <v-text-field readonly v-model="nrc" label="NRC"></v-text-field>
+                                    <v-text-field readonly v-model="age" label="Age"></v-text-field>
+                                    <v-text-field readonly v-model="residence" label="Residential Address"></v-text-field>
                                 </v-col>
                                 <v-col cols="6" sm="4" md="4">   
                                   <v-btn
@@ -63,11 +63,12 @@
                                     class="ma-2"
                                     @click="dialog2 = !dialog2">Add Defendant</v-btn>
                                    <v-subheader>Defendant</v-subheader>
-                                    <v-text-field readonly v-model="editedItem.subject" label="First Name"></v-text-field>
-                                    <v-text-field readonly v-model="editedItem.subject" label="Last Name"></v-text-field>
-                                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="NRC"></v-text-field>
-                                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="Age"></v-text-field>
-                                    <v-text-field readonly v-model="editedItem.particularOfOffence" label="Residential Address"></v-text-field>
+                                     <v-data-table
+                                      :headers="recovered"
+                                      :items="suspects"
+                                      :items-per-page="5"
+                                      :search="search"
+                                      class="elevation-1"> </v-data-table>
                                 </v-col>
                               
                                  <v-col cols="6" sm="4" md="4">     
@@ -79,7 +80,7 @@
                                    <v-subheader>Recovered Items</v-subheader>
                                     <v-data-table
                                       :headers="recovered"
-                                      :items="occurences"
+                                      :items="recovered"
                                       :items-per-page="5"
                                       :search="search"
                                       class="elevation-1"> </v-data-table>
@@ -92,28 +93,6 @@
                     </v-dialog>
               </template> 
 
-                <template v-slot:top>
-                   <v-dialog v-model="dialog" max-width="500px">
-                      <v-card tile>
-                            <v-row>
-                            <v-col cols="12" sm="6" md="6">
-                              <v-text-field v-model="firstName" :rules="nameRules" label="First Name" required></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="6" md="6">
-                              <v-text-field v-model="lastName" :rules="nameRules" label="Last Name" required></v-text-field>
-                            </v-col>
-                          </v-row>
-                          <v-row>
-                            <v-col cols="12" sm="6" md="6">
-                              <v-text-field v-model="nrc" :rules="nameRules" label="NRC" required></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="6" md="6">
-                              <v-text-field v-model="residence" :rules="nameRules" label="Residence" required></v-text-field>
-                            </v-col>
-                          </v-row>
-                      </v-card>
-                    </v-dialog>
-              </template> 
               
   
             <template v-slot:item.action="{ item }">
@@ -140,8 +119,11 @@
   export default {
     data: () => ({
         occurences: [],
+        recovered: [],
+        defendant: [],
          search: '',
          dialog: false,
+         complainant: false,
          headers: [
           { text: 'Subject', 
             value: 'subject',    
@@ -155,13 +137,26 @@
           { text: 'Actions', value: 'action', sortable: false },
         ],
          recovered: [
-          { text: 'Subject', 
-            value: 'subject',    
+          { text: 'Item', 
+            value: 'item',    
             align: 'left',
             sortable: true,},
-          { text: 'Date of Occurence', value: 'date' },
+          { text: 'Date Recovered', value: 'date' },
           { text: 'Actions', value: 'action', sortable: false },
         ],
+         suspects: [
+          { text: 'First Name', 
+            value: 'firstName',    
+            align: 'left',
+            sortable: true,},
+          { text: 'Last Name', value: 'lastName' },
+          { text: 'Actions', value: 'action', sortable: false },
+        ],
+        firstName: "",
+        lastName: "",
+        age: "",
+         nrc: "",
+        residence: "",
         
         investigator: "",
         editedIndex: -1,
@@ -176,6 +171,18 @@
  
     created() {
       db.collection('occurences').onSnapshot(res => {
+        const changes = res.docChanges();
+        changes.forEach(change => {
+          if (change.type === 'added') {
+            this.occurences.push({
+              ...change.doc.data(),
+              id: change.doc.id
+            })
+          }  
+        })
+      })
+
+       db.collection('recovered').onSnapshot(res => {
         const changes = res.docChanges();
         changes.forEach(change => {
           if (change.type === 'added') {
