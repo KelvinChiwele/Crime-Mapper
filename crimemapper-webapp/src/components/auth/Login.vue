@@ -1,5 +1,5 @@
 <template>
- <v-card max-width="500" class="mx-auto mt-4 pa-4">
+ <v-card max-width="500" color="green lighten-2" class="mx-auto mt-4 pa-4">
    <v-card-title>Login</v-card-title>
     <v-card-text>
       <v-form  ref="form" v-model="valid" lazy-validation>
