@@ -79,13 +79,19 @@ require('firebase/auth')
     data: () => ({
         date: new Date().toISOString().substr(0, 10),
         menu2: false,
+        feedback: null,
         dialog: false,
         firstName: "",
         lastName: "",
+        nameRules: [
+          v => !!v || "Name is required",
+          v => (v && v.length <= 10) || "Name must be less than 10 characters"
+        ],
         nrc: "",
         residence: "",
         subject: "",
         occurence: "",
+        particularOfOffence: "",
         place: "",
         items: ["== SELECT  SUBJECT ==","assault", "burglary", "drugs", "robbery"],
     }),

@@ -116,7 +116,7 @@
                                               </v-form>
                                             </v-card-text>
                                     <v-card-actions>
-                                        <v-btn :disabled="!valid" color="success" class="mr-4" @click="saveSuspect">Login</v-btn>
+                                        <v-btn :disabled="!valid" color="success" class="mr-4" @click="saveSuspect">Save</v-btn>
                                         <v-btn color="error" class="mr-4" @click="reset">Clear</v-btn>
                                     </v-card-actions>
                                   </v-card>
@@ -151,7 +151,8 @@
                                               <v-form ref="form" v-model="valid" lazy-validation>
                                               <v-container>
                                                 <v-row>
-                                                    <v-text-field readonly v-model="variable" label="Variable recovered"></v-text-field>
+                                                    <v-text-field  v-model="variable" label="Variable recovered"></v-text-field>
+                                                    <v-text-field  v-model="description" label="Description"></v-text-field>
                                                      <v-menu
                                                         v-model="menu2"
                                                         :close-on-content-click="false"
@@ -176,7 +177,7 @@
                                               </v-form>
                                             </v-card-text>
                                     <v-card-actions>
-                                        <v-btn :disabled="!valid" color="success" class="mr-4" @click="saveSuspect">Login</v-btn>
+                                        <v-btn :disabled="!valid" color="success" class="mr-4" @click="saveVariable">Save</v-btn>
                                         <v-btn color="error" class="mr-4" @click="reset">Clear</v-btn>
                                     </v-card-actions>
                                   </v-card>
@@ -202,7 +203,7 @@
         </v-card>
 
     </v-container>
-   
+  
   </div>
 </template>
 
@@ -210,7 +211,10 @@
   import db from '@/firebase/fb'
 
   export default {
+    
     data: () => ({
+        valid: true,
+        name:"",
         firstName: "",
         firstNameRules: [
           v => !!v || "First Name is required"
@@ -251,8 +255,9 @@
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
           { text: 'Location', value: 'place' },
           { text: 'Date of Occurence', value: 'date' },
-          { text: 'Suspect', value: 'defendant' },
+          { text: 'Station', value: 'station' },
           { text: 'Status', value: 'status' },
+          { text: 'Actions', value: 'action', sortable: false },
         ],
          recovered: [
           { text: 'Item', 
@@ -267,7 +272,7 @@
             align: 'left',
             sortable: true,},
           { text: 'Last Name', value: 'lastName' },
-          { text: 'Actions', value: 'action', sortable: false },
+          
         ],
         firstName: "",
         lastName: "",
