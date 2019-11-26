@@ -17,7 +17,7 @@ export default {
         ],
         datasets: [
           {
-            label: "Data 1",
+            label: "Crimes Reported Monthly 2019",
             data: [2, 10, 5, 9, 0, 6, 20],
             backgroundColor: "transparent",
             borderColor: "rgba(1, 116, 188, 0.50)",

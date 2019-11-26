@@ -7,6 +7,10 @@
         <span class="font-weight-light">Mapper</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+         <v-flex class="mt-4 mb-3">
+                <AddStation/>
+            </v-flex>
+
       <v-btn v-if="!user" text>
         <span class="mr-2">Login</span>
         <v-icon>exit_to_app</v-icon>
@@ -24,9 +28,11 @@
                     <img src="/zp.png" alt="">
                 </v-avatar>
             </v-flex>
-            <v-flex class="mt-4 mb-3">
+
+              <v-flex class="mt-4 mb-3">
                 <Addcase/>
             </v-flex>
+            
         </v-layout>
         
      
@@ -46,9 +52,11 @@
 
 <script>
 import Addcase from './Addcase'
+import AddStation from './AddStation'
 import firebase from 'firebase'
 export default {
-    components: {Addcase},
+    components: {Addcase,AddStation},
+
     data(){
         return{
             drawer: false,
@@ -59,6 +67,8 @@ export default {
                 {icon: 'folder', text: "Cases", route: '/cases'},
                 {icon: 'assignment', text: "Crime Register", route: '/crimeRegister'},
                 {icon: 'room', text: "Location Picker", route: '/picker'},
+                {icon: 'info', text: "Reports", route: '/reports'},
+                {icon: 'home_work', text: "Stations", route: '/stations'},
             ]
         }
     },

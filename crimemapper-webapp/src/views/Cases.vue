@@ -169,8 +169,8 @@
                 investigator: this.investigator,
                 status:"Approved",
                 particularOfOffence: this.editedItem.particularOfOffence,
-                station: this.editedItem.station,
-                userUrl: this.userUrl,
+                //station: this.editedItem.station,
+                //userUrl: this.userUrl,
             }).then(function(docRef) {
                 console.log("Document written with ID: ", docRef.id);
             }).catch(function(error) {

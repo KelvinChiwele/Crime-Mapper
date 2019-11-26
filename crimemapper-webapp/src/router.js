@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Dashboard from './views/Dashboard.vue'
 import Cases from './views/Cases.vue'
 import Mapper from './views/Mapper.vue'
+import Stations from './views/Stations.vue'
 import Reports from './components/Reports.vue'
 import Picker from './views/Picker.vue'
 import CrimeRegister from './views/CrimeRegister.vue'
@@ -37,6 +38,14 @@ const router = new Router({
       path: '/mapper',
       name: 'Mapper',
       component: Mapper,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/stations',
+      name: 'Stations',
+      component: Stations,
       meta: {
         requiresAuth: true
       }
