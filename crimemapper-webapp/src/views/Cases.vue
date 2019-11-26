@@ -88,7 +88,7 @@
             sortable: true,},
           { text: 'Particulars of Offence', value: 'particularOfOffence' },
           { text: 'Date of Occurence', value: 'date' },
-          { text: 'Status', value: 'dat' },
+          { text: 'Status', value: 'status' },
           { text: 'Action', value: 'action', sortable: false },
         ],
         investigator: "",
@@ -169,9 +169,10 @@
                 investigator: this.investigator,
                 status:"Approved",
                 particularOfOffence: this.editedItem.particularOfOffence,
+                station: this.editedItem.station,
+                userUrl: this.userUrl,
             }).then(function(docRef) {
                 console.log("Document written with ID: ", docRef.id);
-                this.$router.push({name: 'Dashboard'})
             }).catch(function(error) {
                 console.error("Error adding document: ", error);
             });    

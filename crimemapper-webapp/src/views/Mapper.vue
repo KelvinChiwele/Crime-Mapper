@@ -21,13 +21,17 @@
                 <div class="filters" id="filters" style="margin-left: 1095px; margin-right: 10px; padding-top: 8px;">
                   <v-select
                     v-model="subject"
-                    :items="items"
+                    :items="subjects"
+                    item-text="text"
+                    item-value="value"
                     label="--Select Subject--"
                     required></v-select>
 
                   <v-select
-                    v-model="location"
-                    :items="items"
+                    v-model="byLocation"
+                    :items="locations"
+                    item-text="text"
+                    item-value="value"
                     label="--Select Location--"
                     required></v-select>
                 </div>
@@ -48,27 +52,31 @@ export default {
       map: null,
       bounds: null,
       markers: [],
-      subject: null,
-      location: null,
-      items: ["== SELECT  SUBJECT ==","assault", "burglary", "drugs", "robbery"],
+      locations: [{value: "", text: "== SELECT  LOCATION =="}],
+      subject: "",
+      byLocation: null,
+      location: "",
+      subjects: [{value: "", text: "== SELECT  SUBJECT =="}],
     };
   },
 
   
 
   mounted: function mounted () {
-    this.populateMap();
+    this.populateMap("","");
   },
 
    watch: {
      subject: function(){
-       //console.log("subject");
-        this.populateMap();
-     }      
+        this.populateMap(this.subject, this.byLocation);
+     },   
+     byLocation: function(){
+        this.populateMap(this.subject, this.byLocation);
+     }     
   },
 
   methods: {  
-      populateMap() {
+      populateMap(filter, byLocation) {
           this.bounds = new google.maps.LatLngBounds();
     // const element = document.querySelector("#" + this.mapName);
       const element = document.querySelector("#mapName");
@@ -82,53 +90,203 @@ export default {
 
       db.collection("crimes")
         .get()
-        .then(crimes => {
+        .then(crimes => {        
           crimes.docs.forEach(doc => {
             let coord = doc.data();
-            //const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
-            const position = new google.maps.LatLng(
-              coord.latitude,
-              coord.longitude
-            );
-            const marker = new google.maps.Marker({
-              position,
-              icon: coord.icon + ".svg",
-              map: this.map
-              // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
+          /*  this.locations.push(coord.place);
+            this.subjects.push(coord.subject);*/
+
+            this.subjects.push({
+              value: coord.subject,
+              text: coord.subject
             });
-            marker.addListener("click", function() {
-              var content =
-                '<div id="iw-container">' +
-                '<div class="iw-title"><strong>DESCRIPTION: </strong>' +
-                coord.particularOfOffence +
-                "</div>" +
-                '<div class="iw-content">' +
-                "<p>" +
-                '<div class="iw-title"><strong>PLACE: </strong>' +
-                coord.place +
-                "</div>" +
-                "<br><strong>Latitude: </strong>" +
-                coord.latitude +
-                "<strong> <br>Longitude: </strong>" +
-                coord.latitude +
-                "</p>" +
-                "<p><strong>Date: </strong>" +
-                coord.date +
-                "</p>" +
-                "</div>" +
-                '<div class="iw-bottom-gradient"></div>' +
-                "</div>";
-              // A new Info Window is created and set content
-              var infowindow = new google.maps.InfoWindow({
-                content: content,
-                // Assign a maximum value for the width of the infowindow allows
-                // greater control over the various content elements
-                maxWidth: 320
-              });
-              infowindow.open(map, marker);
+
+            this.locations.push({
+              value: coord.place,
+              text: coord.place
             });
-            this.markers.push(marker);
-            this.map.fitBounds(this.bounds.extend(position));
+            if (coord.icon.toLowerCase() == filter && byLocation == ""){   
+                //const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
+                const position = new google.maps.LatLng(
+                  coord.latitude,
+                  coord.longitude
+                );
+                const marker = new google.maps.Marker({
+                  position,
+                  icon: coord.icon.toLowerCase() + ".svg",
+                  map: this.map
+                  // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
+                });
+                marker.addListener("click", function() {
+                  var content =
+                    '<div id="iw-container">' +
+                    '<div class="iw-title"><strong>DESCRIPTION: </strong>' +
+                    coord.particularOfOffence +
+                    "</div>" +
+                    '<div class="iw-content">' +
+                    "<p>" +
+                    '<div class="iw-title"><strong>PLACE: </strong>' +
+                    coord.place +
+                    "</div>" +
+                    "<br><strong>Latitude: </strong>" +
+                    coord.latitude +
+                    "<strong> <br>Longitude: </strong>" +
+                    coord.latitude +
+                    "</p>" +
+                    "<p><strong>Date: </strong>" +
+                    coord.date +
+                    "</p>" +
+                    "</div>" +
+                    '<div class="iw-bottom-gradient"></div>' +
+                    "</div>";
+                  // A new Info Window is created and set content
+                  var infowindow = new google.maps.InfoWindow({
+                    content: content,
+                    // Assign a maximum value for the width of the infowindow allows
+                    // greater control over the various content elements
+                    maxWidth: 320
+                  });
+                  infowindow.open(map, marker);
+                });
+                this.markers.push(marker);
+                this.map.fitBounds(this.bounds.extend(position));
+            } else if (filter == "" && byLocation == "") {
+                //const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
+                const position = new google.maps.LatLng(
+                  coord.latitude,
+                  coord.longitude
+                );
+                const marker = new google.maps.Marker({
+                  position,
+                  icon: coord.icon.toLowerCase() + ".svg",
+                  map: this.map
+                  // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
+                });
+                marker.addListener("click", function() {
+                  var content =
+                    '<div id="iw-container">' +
+                    '<div class="iw-title"><strong>DESCRIPTION: </strong>' +
+                    coord.particularOfOffence +
+                    "</div>" +
+                    '<div class="iw-content">' +
+                    "<p>" +
+                    '<div class="iw-title"><strong>PLACE: </strong>' +
+                    coord.place +
+                    "</div>" +
+                    "<br><strong>Latitude: </strong>" +
+                    coord.latitude +
+                    "<strong> <br>Longitude: </strong>" +
+                    coord.latitude +
+                    "</p>" +
+                    "<p><strong>Date: </strong>" +
+                    coord.date +
+                    "</p>" +
+                    "</div>" +
+                    '<div class="iw-bottom-gradient"></div>' +
+                    "</div>";
+                  // A new Info Window is created and set content
+                  var infowindow = new google.maps.InfoWindow({
+                    content: content,
+                    // Assign a maximum value for the width of the infowindow allows
+                    // greater control over the various content elements
+                    maxWidth: 320
+                  });
+                  infowindow.open(map, marker);
+                });
+                this.markers.push(marker);
+                this.map.fitBounds(this.bounds.extend(position));
+            } else if (coord.place == byLocation && filter == "") {
+                //const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
+                const position = new google.maps.LatLng(
+                  coord.latitude,
+                  coord.longitude
+                );
+                const marker = new google.maps.Marker({
+                  position,
+                  icon: coord.icon.toLowerCase() + ".svg",
+                  map: this.map
+                  // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
+                });
+                marker.addListener("click", function() {
+                  var content =
+                    '<div id="iw-container">' +
+                    '<div class="iw-title"><strong>DESCRIPTION: </strong>' +
+                    coord.particularOfOffence +
+                    "</div>" +
+                    '<div class="iw-content">' +
+                    "<p>" +
+                    '<div class="iw-title"><strong>PLACE: </strong>' +
+                    coord.place +
+                    "</div>" +
+                    "<br><strong>Latitude: </strong>" +
+                    coord.latitude +
+                    "<strong> <br>Longitude: </strong>" +
+                    coord.latitude +
+                    "</p>" +
+                    "<p><strong>Date: </strong>" +
+                    coord.date +
+                    "</p>" +
+                    "</div>" +
+                    '<div class="iw-bottom-gradient"></div>' +
+                    "</div>";
+                  // A new Info Window is created and set content
+                  var infowindow = new google.maps.InfoWindow({
+                    content: content,
+                    // Assign a maximum value for the width of the infowindow allows
+                    // greater control over the various content elements
+                    maxWidth: 320
+                  });
+                  infowindow.open(map, marker);
+                });
+                this.markers.push(marker);
+                this.map.fitBounds(this.bounds.extend(position));
+            } else if (coord.place == byLocation && filter == coord.icon.toLowerCase() ) {
+                //const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
+                const position = new google.maps.LatLng(
+                  coord.latitude,
+                  coord.longitude
+                );
+                const marker = new google.maps.Marker({
+                  position,
+                  icon: coord.icon.toLowerCase() + ".svg",
+                  map: this.map
+                  // title: " Murder " + '\n\n' +" Chilanga Area " + '\n\n' + " 20/09/2019 "
+                });
+                marker.addListener("click", function() {
+                  var content =
+                    '<div id="iw-container">' +
+                    '<div class="iw-title"><strong>DESCRIPTION: </strong>' +
+                    coord.particularOfOffence +
+                    "</div>" +
+                    '<div class="iw-content">' +
+                    "<p>" +
+                    '<div class="iw-title"><strong>PLACE: </strong>' +
+                    coord.place +
+                    "</div>" +
+                    "<br><strong>Latitude: </strong>" +
+                    coord.latitude +
+                    "<strong> <br>Longitude: </strong>" +
+                    coord.latitude +
+                    "</p>" +
+                    "<p><strong>Date: </strong>" +
+                    coord.date +
+                    "</p>" +
+                    "</div>" +
+                    '<div class="iw-bottom-gradient"></div>' +
+                    "</div>";
+                  // A new Info Window is created and set content
+                  var infowindow = new google.maps.InfoWindow({
+                    content: content,
+                    // Assign a maximum value for the width of the infowindow allows
+                    // greater control over the various content elements
+                    maxWidth: 320
+                  });
+                  infowindow.open(map, marker);
+                });
+                this.markers.push(marker);
+                this.map.fitBounds(this.bounds.extend(position));
+            }
+            
           }); //End for each
         });
 
