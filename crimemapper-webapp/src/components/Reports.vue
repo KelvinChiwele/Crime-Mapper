@@ -47,6 +47,20 @@
       </v-col>-->
 
     </v-row>
+
+    <v-row>
+      <v-col
+          :key="n"
+          cols="12">
+          <v-card
+            class="pa-2"
+            outlined
+            tile>
+            <LineChart/> 
+          </v-card>
+        </v-col> 
+      </v-row>
+
   </v-container>
 </template>
 

@@ -85,7 +85,7 @@ require('firebase/auth')
         lastName: "",
         nameRules: [
           v => !!v || "Name is required",
-          v => (v && v.length <= 10) || "Name must be less than 10 characters"
+         // v => (v && v.length < 1) || "Name must be less than 1 character long"
         ],
         nrc: "",
         residence: "",
@@ -105,11 +105,12 @@ require('firebase/auth')
                 date: this.date,
                 latitude: window.lat,
                 longitude: window.lng,
-                particularOfOffence: this.particularOfOffence
+                particularOfOffence: this.particularOfOffence,
+                status:"Pending",
             })
             .then(function(docRef) {
-                console.log("Document written with ID: ", docRef.id);
-                this.$router.push({name: 'Dashboard'})
+                db.collection("occurences").doc(docRef.id).update({occurenceId: docRef.id})
+                //this.$router.push({name: 'Dashboard'})
             })
             .catch(function(error) {
                 console.error("Error adding document: ", error);

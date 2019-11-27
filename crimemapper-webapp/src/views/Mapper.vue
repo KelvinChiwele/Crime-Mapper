@@ -105,6 +105,7 @@ export default {
               value: coord.place,
               text: coord.place
             });
+            console.log(byLocation + " " + coord.place);
             if (coord.icon.toLowerCase() == filter && byLocation == ""){   
                 //const position = new google.maps.LatLng(coord.location.latitude, coord.location.longitude);
                 const position = new google.maps.LatLng(

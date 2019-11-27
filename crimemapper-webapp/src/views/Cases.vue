@@ -81,6 +81,7 @@
         occurences: [],
         investigators: [],
         search: '',
+        occurenceId: '',
          headers: [
           { text: 'Subject', 
             value: 'subject',    
@@ -140,7 +141,7 @@
       },
     },
 
-      methods: {
+  methods: {
   
       editItem (item) {
         this.editedIndex = this.occurences.indexOf(item)
@@ -159,6 +160,7 @@
       save () {
         if (this.editedIndex > -1) {
           Object.assign(this.occurences[this.editedIndex], this.editedItem)
+          this.occurenceId = this.editedItem.occurenceId;
             db.collection("crimes").add({
                 subject: this.editedItem.subject,
                 icon: this.editedItem.subject,
@@ -169,10 +171,11 @@
                 investigator: this.investigator,
                 status:"Approved",
                 particularOfOffence: this.editedItem.particularOfOffence,
+                occurenceId: this.editedItem.occurenceId
                 //station: this.editedItem.station,
                 //userUrl: this.userUrl,
             }).then(function(docRef) {
-                console.log("Document written with ID: ", docRef.id);
+              db.collection("crimes").doc(docRef.id).update({crimeId: docRef.id})
             }).catch(function(error) {
                 console.error("Error adding document: ", error);
             });    
@@ -181,6 +184,16 @@
         }
         this.close()
       },
+
+      updateOb(){
+         db.collection("occurences").add({            
+                status:"Approved",
+            }).then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            }).catch(function(error) {
+                console.error("Error adding document: ", error);
+            });    
+      }
     },
     
   }
