@@ -9,10 +9,9 @@ export default {
   data: function() {
     return {
       markers: [],
-      locations: [{value: "", text: "== SELECT  LOCATION =="}],
       subject: "",
       byLocation: null,
-      subjects: {},
+      crimes: {},
       data:[],
       count: 0
     };
@@ -24,27 +23,22 @@ export default {
         .then(crimes => {        
           crimes.docs.forEach(doc => {
             let coord = doc.data();
-            //console.log("==========================")
-          /*  this.locations.push(coord.place);
-            this.subjects.push(coord.subject);*/
-            if (!this.subjects[coord.place]){
-              this.subjects[coord.date.split("-")[1]] = 1;
-            } else {
-              this.subjects[coord.date.split("-")[1]] = ++this.subjects[coord.place];
-              //console.log(this.subjects[coord.subject])
+            for(var i = 1; i < 13; i++){
+                if (i < 10){
+                  this.crimes["0" + i] = 0;
+                } else{
+                  this.crimes[i] = 0;
+                }            
             }
-            console.log(coord.date.split("-")[1])
-            
-            /*this.subjects.push({
-              value: coord.subject,
-              text: coord.place
-            });*/
+
+              console.log(coord.date.split("-")[1])
+              this.crimes[coord.date.split("-")[1]] = ++this.crimes[coord.date.split("-")[1]];
+         
+            console.log(this.crimes)
+
             
           });
-             Object.entries(this.subjects).forEach(([key, value]) =>{
-                console.log(key, value)
-              })
-               this.populateGraph();
+          this.populateGraph();
         }); //End for each
     },
     methods: { 
@@ -72,7 +66,7 @@ export default {
             datasets: [
           {
             label: "Crimes Reported Monthly 2019",
-            data: Object.values(this.subjects),
+            data: Object.values(this.crimes),
             backgroundColor: "transparent",
             borderColor: "rgba(1, 116, 188, 0.50)",
             pointBackgroundColor: "rgba(171, 71, 188, 1)"
@@ -84,38 +78,5 @@ export default {
       }
       
     },
-  mounted() {
-    /*
-    this.renderChart(
-       {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July"
-        ],
-        datasets: [
-          {
-            label: "Crimes Reported Monthly 2019",
-            data: [2, 10, 5, 9, 0, 6, 20],
-            backgroundColor: "transparent",
-            borderColor: "rgba(1, 116, 188, 0.50)",
-            pointBackgroundColor: "rgba(171, 71, 188, 1)"
-          }
-        ]
-      },
-      {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: "My Data"
-        }
-      }
-    );*/
-  }
 };
 </script>

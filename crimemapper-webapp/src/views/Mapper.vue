@@ -93,9 +93,8 @@ export default {
         .then(crimes => {        
           crimes.docs.forEach(doc => {
             let coord = doc.data();
-          /*  this.locations.push(coord.place);
-            this.subjects.push(coord.subject);*/
-
+            var infowindow;            
+            var lastWindow = null;
             this.subjects.push({
               value: coord.subject,
               text: coord.subject
@@ -141,13 +140,18 @@ export default {
                     '<div class="iw-bottom-gradient"></div>' +
                     "</div>";
                   // A new Info Window is created and set content
-                  var infowindow = new google.maps.InfoWindow({
+                  infowindow = new google.maps.InfoWindow({
                     content: content,
                     // Assign a maximum value for the width of the infowindow allows
                     // greater control over the various content elements
                     maxWidth: 320
                   });
-                  infowindow.open(map, marker);
+                  if(!!lastWindow){                      
+                    lastWindow.close();
+                   // console.log(lastWindow)
+                  }
+                  infowindow.open(this.map, marker);
+                  lastWindow = infowindow; 
                 });
                 this.markers.push(marker);
                 this.map.fitBounds(this.bounds.extend(position));
@@ -186,13 +190,18 @@ export default {
                     '<div class="iw-bottom-gradient"></div>' +
                     "</div>";
                   // A new Info Window is created and set content
-                  var infowindow = new google.maps.InfoWindow({
+                   infowindow = new google.maps.InfoWindow({
                     content: content,
                     // Assign a maximum value for the width of the infowindow allows
                     // greater control over the various content elements
                     maxWidth: 320
                   });
-                  infowindow.open(map, marker);
+                  if(!!lastWindow){                      
+                    lastWindow.close();
+                   // console.log(lastWindow)
+                  }
+                  infowindow.open(this.map, marker);
+                  lastWindow = infowindow;                  
                 });
                 this.markers.push(marker);
                 this.map.fitBounds(this.bounds.extend(position));
@@ -231,13 +240,18 @@ export default {
                     '<div class="iw-bottom-gradient"></div>' +
                     "</div>";
                   // A new Info Window is created and set content
-                  var infowindow = new google.maps.InfoWindow({
+                  infowindow = new google.maps.InfoWindow({
                     content: content,
                     // Assign a maximum value for the width of the infowindow allows
                     // greater control over the various content elements
                     maxWidth: 320
                   });
-                  infowindow.open(map, marker);
+                     if(!!lastWindow){                      
+                    lastWindow.close();
+                   // console.log(lastWindow)
+                  }
+                  infowindow.open(this.map, marker);
+                  lastWindow = infowindow; 
                 });
                 this.markers.push(marker);
                 this.map.fitBounds(this.bounds.extend(position));
@@ -276,27 +290,35 @@ export default {
                     '<div class="iw-bottom-gradient"></div>' +
                     "</div>";
                   // A new Info Window is created and set content
-                  var infowindow = new google.maps.InfoWindow({
+                  infowindow = new google.maps.InfoWindow({
                     content: content,
                     // Assign a maximum value for the width of the infowindow allows
                     // greater control over the various content elements
                     maxWidth: 320
                   });
-                  infowindow.open(map, marker);
+                    if(!!lastWindow){                      
+                    lastWindow.close();
+                   // console.log(lastWindow)
+                  }
+                  infowindow.open(this.map, marker);
+                  lastWindow = infowindow; 
                 });
                 this.markers.push(marker);
                 this.map.fitBounds(this.bounds.extend(position));
             }
             
+            //var map = new google.maps.Map(document.getElementById("map-canvas"),options);
+
+            // Event that closes the Info Window with a click on the map
+           /* google.maps.event.addListener(this.map, "click", function() {
+              infowindow.close();
+            });*/
+            
           }); //End for each
+
         });
 
-      //var map = new google.maps.Map(document.getElementById("map-canvas"),options);
-
-      // Event that closes the Info Window with a click on the map
-      google.maps.event.addListener(this.map, "click", function() {
-        infowindow.close();
-      });
+      
     }
   }
 

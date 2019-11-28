@@ -112,7 +112,7 @@ export default {
                  // userId: user.uid
                 })
               }).then(() =>{
-                this.$router.push({name: 'Dashboard'})
+                this.$router.push({name: 'Login'})
               }).catch(err => {
                  // console.log(err)
                   this.feedback = err.message;

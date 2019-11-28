@@ -37,6 +37,7 @@ export default {
       if (this.$refs.form.validate()) {
           firebase.auth().signInWithEmailAndPassword(this.email, this.passWord)
           .then(cred =>{
+            console.log(cred.uid);
              this.$router.push({name: 'Dashboard'})
           }).catch(err => {
               // console.log(err)

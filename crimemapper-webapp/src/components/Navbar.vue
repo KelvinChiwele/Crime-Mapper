@@ -29,7 +29,13 @@
                 </v-avatar>
             </v-flex>
 
-              <v-flex class="mt-4 mb-3">
+            <v-flex cl`ass="mt-4 mb-3">
+               <input class="red--text" type="text" v-model="fullName"/>
+               <input type="text" v-model="serviceNumber"/>
+               <input type="text" v-model="rank"/>
+            </v-flex>
+
+              <v-flex cl`ass="mt-4 mb-3">
                 <Addcase/>
             </v-flex>
             
@@ -54,6 +60,9 @@
 import Addcase from './Addcase'
 import AddStation from './AddStation'
 import firebase from 'firebase'
+
+import db from '@/firebase/fb' 
+
 export default {
     components: {Addcase,AddStation},
 
@@ -61,6 +70,9 @@ export default {
         return{
             drawer: false,
             user:'',
+            fullName: '',
+            serviceNumber: '',
+            rank: '',
             links:[
                 {icon: 'dashboard', text: "OB Book", route: '/'},
                 {icon: 'map', text: "Crime Map", route: '/mapper'},
@@ -77,19 +89,33 @@ export default {
             firebase.auth().signOut().then(() =>{
                 this.$router.push({name: 'Login'})
             })
-        }
+        },
     },
-    created(){
 
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                this.user = user
+    mounted(){
+        firebase.auth().onAuthStateChanged(function(cred) {
+            if (cred) {
+                //this.user = cred
+                console.log(cred.uid);
+                db.collection("officers").doc("609111")
+                .get()
+                .then(function(doc) {
+                    if (doc.exists) {
+                    console.log("Document data:", doc.data().firstName);
+                       // serviceNumber = doc.data().firstName + doc.data().firstName
+                    } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
                 // User is signed in.
             } else {
                 // No user is signed in.
                 //this.user = null
             }
-            })
+        })
     }
 }
 </script>
