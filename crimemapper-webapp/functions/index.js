@@ -53,11 +53,12 @@ function getDistanceBetweenPoints(lat1, lng1, lat2, lng2){
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     let distance = R * c;
 
-    return distance;
+    return distance;              db.collection("occurences").doc(occurenceId).update({status: "Approved"});
+
 }
 
  //Listens for any document change and assign case to right juridictions
- exports.onCreateCase = functions.firestore
+/* exports.onCreateCase = functions.firestore
     .document('occurences/{occurencesUrl}')
     .onCreate((snap, context) => {
         const newValue = snap.data();
@@ -70,6 +71,14 @@ function getDistanceBetweenPoints(lat1, lng1, lat2, lng2){
         }).catch(function(error) {
             
         });   
+});*/
+
+ exports.onCreateCase = functions.firestore
+    .document('crimes/{crimeUrl}')
+    .onCreate((snap, context) => {
+        const newValue = snap.data();
+        var occurenceUrl = newValue.occurenceId;
+        admin.firestore().collection("occurences").doc(occurenceUrl).update({status: "Approved"});  
 });
 
 function getClosetStation(latitude, longitude){

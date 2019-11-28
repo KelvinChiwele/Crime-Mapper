@@ -23,27 +23,16 @@ export default {
         .then(crimes => {        
           crimes.docs.forEach(doc => {
             let coord = doc.data();
-            //console.log("==========================")
-          /*  this.locations.push(coord.place);
-            this.subjects.push(coord.subject);*/
             if (!this.subjects[coord.subject]){
               this.subjects[coord.subject] = 1;
             } else {
               this.subjects[coord.subject] = ++this.subjects[coord.subject];
-              //console.log(this.subjects[coord.subject])
-            }
-            //console.log(coord.subject +" " + this.subjects[coord.subject])
-            
-            /*this.subjects.push({
-              value: coord.subject,
-              text: coord.place
-            });*/
-            
+            }            
           });
-             Object.entries(this.subjects).forEach(([key, value]) =>{
+          /*Object.entries(this.subjects).forEach(([key, value]) =>{
                 console.log(key, value)
-              })
-               this.populateGraph();
+              })*/
+          this.populateGraph();
         }); //End for each
     },
 
@@ -66,6 +55,9 @@ export default {
                 this.renderChart(
                   {
                     labels: Object.keys(this.subjects),
+                    tooltips:{
+                      enabled: false
+                    },
                     datasets: [
                       {
                         backgroundColor: [this.gradient, this.gradient2, "#00D8FF"],
@@ -76,11 +68,6 @@ export default {
                   { responsive: true, maintainAspectRatio: false }
                 );
             }
-       },
-
-
-  mounted() {
-    
-  }
+       }
 };
 </script>

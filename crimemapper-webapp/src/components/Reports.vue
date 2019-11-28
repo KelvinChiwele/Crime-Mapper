@@ -2,7 +2,6 @@
    <v-container class="grey lighten-5">
      <v-row>
       <v-col
-        :key="n"
         cols="8">
         <v-card
           class="pa-2"
@@ -25,7 +24,6 @@
       </v-col> -->
 
       <v-col
-        :key="n"
         cols="4">
         <v-card
           class="pa-2"
@@ -50,7 +48,6 @@
 
     <v-row>
       <v-col
-          :key="n"
           cols="12">
           <v-card
             class="pa-2"
@@ -78,15 +75,7 @@ export default {
     LineChart,
     PieChart
   },
-  data() {
-    return {
-      chartData: {
-        Books: 24,
-        Magazine: 30,
-        Newspapers: 10
-      },
-    };
-  },
+  
    computed: {
       cols () {
         const { lg, sm } = this.$vuetify.breakpoint

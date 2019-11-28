@@ -8,36 +8,31 @@ export default {
 
   data: function() {
     return {
-      markers: [],
-      subject: "",
-      byLocation: null,
       crimes: {},
-      data:[],
-      count: 0
+      points:[],
     };
   },
 
    created() {      
       db.collection("crimes")
         .get()
-        .then(crimes => {        
-          crimes.docs.forEach(doc => {
-            let coord = doc.data();
+        .then(crimes => {     
+          
             for(var i = 1; i < 13; i++){
                 if (i < 10){
                   this.crimes["0" + i] = 0;
                 } else{
                   this.crimes[i] = 0;
                 }            
-            }
-
-              console.log(coord.date.split("-")[1])
+            }   
+          crimes.docs.forEach(doc => {
+            let coord = doc.data();
               this.crimes[coord.date.split("-")[1]] = ++this.crimes[coord.date.split("-")[1]];
-         
-            console.log(this.crimes)
-
-            
           });
+
+          for(var i = 0; i < 12; i++){
+            this.points[i] = this.crimes[Object.keys(this.crimes).sort()[i]];         
+          }  
           this.populateGraph();
         }); //End for each
     },
@@ -45,15 +40,12 @@ export default {
       populateGraph(){
          this.renderChart(
           {
-            labels:  [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",  "August",  "September",  "October",  "November",  "December"
-        ],
+            //labels:  Object.keys(this.crimes).sort(),
+            labels: [
+                    "January", "February", "March",
+                    "April", "May", "June", "July",  
+                    "August",  "September",  "October", 
+                    "November",  "December"],
             /*
             datasets: [
               {
@@ -66,7 +58,7 @@ export default {
             datasets: [
           {
             label: "Crimes Reported Monthly 2019",
-            data: Object.values(this.crimes),
+            data: this.points,
             backgroundColor: "transparent",
             borderColor: "rgba(1, 116, 188, 0.50)",
             pointBackgroundColor: "rgba(171, 71, 188, 1)"

@@ -13,7 +13,7 @@ export default {
       subject: "",
       byLocation: null,
       subjects: {},
-      data:[],
+      points:[],
       count: 0
     };
   },
@@ -24,27 +24,18 @@ export default {
         .then(crimes => {        
           crimes.docs.forEach(doc => {
             let coord = doc.data();
-            //console.log("==========================")
-          /*  this.locations.push(coord.place);
-            this.subjects.push(coord.subject);*/
             if (!this.subjects[coord.place]){
               this.subjects[coord.place] = 1;
             } else {
               this.subjects[coord.place] = ++this.subjects[coord.place];
-              //console.log(this.subjects[coord.subject])
-            }
-            //console.log(coord.subject +" " + this.subjects[coord.subject])
-            
-            /*this.subjects.push({
-              value: coord.subject,
-              text: coord.place
-            });*/
-            
+            }            
           });
-             Object.entries(this.subjects).forEach(([key, value]) =>{
-                console.log(key, value)
-              })
-               this.populateGraph();
+          /*Object.entries(this.subjects).forEach(([key, value]) =>{
+              console.log(key, value)
+            })*/
+            this.points = Object.values(this.subjects);
+            this.points.push(0);
+            this.populateGraph();
         }); //End for each
     },
     methods: { 
@@ -52,46 +43,21 @@ export default {
          this.renderChart(
           {
             labels:  Object.keys(this.subjects),
+            tooltips:{
+              enabled: false
+            },
+
             datasets: [
               {
                 label: "Crimes By Location",
                 backgroundColor: "#f87979",
-                data: Object.values(this.subjects)
+                data: this.points.sort() 
               }
             ]
           },
           { responsive: true, maintainAspectRatio: false }
         );
-      }
-      
-    },
-  mounted() {
-    this.renderChart(
-      {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December"
-        ],
-        datasets: [
-          {
-            label: "Data One",
-            backgroundColor: "#f87979",
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-          }
-        ]
-      },
-      { responsive: true, maintainAspectRatio: false }
-    );
-  }
+      }      
+    }
 };
 </script>
