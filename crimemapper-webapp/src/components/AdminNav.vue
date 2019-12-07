@@ -6,12 +6,16 @@
         <span class="red--text">Crime</span>
         <span class="font-weight-light">Mapper</span>
       </v-toolbar-title>
-
       <v-spacer></v-spacer>
          <v-flex v-if="user" class="mt-4 mb-3">
             <AddStation/>
          </v-flex>
 
+<!--
+      <v-btn v-if="!user" text>
+        <span class="mr-2">Login</span>
+        <v-icon>exit_to_app</v-icon>
+      </v-btn>-->
       <v-btn v-if="user" text @click="logout()">
         <span class="mr-2">Log Out</span>
         <v-icon>exit_to_app</v-icon>
@@ -26,16 +30,21 @@
                 </v-avatar>
             </v-flex>
 
-            <v-btn rounded color="primary" class="mt-2 mb-2" dark>{{ serviceNumber }} </v-btn>
-            <v-btn rounded color="primary" class="mt-2 mb-2" dark>{{ rankName }} </v-btn>
-             <v-btn rounded color="primary" class="mt-2 mb-2" dark>{{ division }} </v-btn>
+            <input type="text" v-model="fullName"/>
+               <v-btn rounded color="primary" class="mt-2 mb-2" dark v-model="fullName"/>
+               <v-btn rounded color="primary" class="mt-2" dark v-model="fullName"/>
+<!--
+               <input type="text" v-model="serviceNumber"/>
+               <input type="text" v-model="rank"/>-->
+
                   
 
-            <v-flex class="mt-4 mb-3">
-                <Addcase/>
+              <v-flex cl`ass="mt-4 mb-3">
+                <AddStation/>
             </v-flex>
             
-        </v-layout>        
+        </v-layout>
+        
      
         <v-list>
             <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
@@ -66,19 +75,14 @@ export default {
             drawer: false,
             user:'',
             fullName: '',
-            rankName: '',
             serviceNumber: '',
-            division: '',
             rank: '',
             links:[
-                {icon: 'dashboard', text: "OB Book", route: '/'},
+                {icon: 'dashboard', text: "Register Officer", route: '/'},
+                {icon: 'dashboard', text: "Officers", route: '/'},
                 {icon: 'map', text: "Crime Map", route: '/mapper'},
-                {icon: 'folder', text: "Cases", route: '/cases'},
-                {icon: 'assignment', text: "Crime Register", route: '/crimeRegister'},
                 {icon: 'room', text: "Location Picker", route: '/picker'},
-                {icon: 'info', text: "Reports", route: '/reports'},
                 {icon: 'home_work', text: "Stations", route: '/stations'},
-                {icon: 'settings_applications', text: "Admin", route: '/admin'},
             ]
         }
     },
@@ -90,17 +94,6 @@ export default {
         },
     },
 
-    watch: {
-    // whenever question changes, this function will run
-    rankName: function (newQuestion) {
-      //this.fullName = 'Waiting for you to stop typing...'
-    },
-
-    division: function (newQuestion) {
-      //this.fullName = 'Waiting for you to stop typing...'
-    }
-  },
-
     mounted(){
         var self = this;
         firebase.auth().onAuthStateChanged(function(cred) {
@@ -110,9 +103,9 @@ export default {
                 .get()
                 .then(function(doc) {
                     if (doc.exists) {
-                       self.rankName = doc.data().rank + " " +  doc.data().lastName;
-                       self.serviceNumber = doc.data().serviceNumber;
-                       self.division = doc.data().division;
+                       self.fullName = doc.data().firstName + " "+  doc.data().firstName
+                       self.serviceNumber = doc.data().serviceNumber
+                       self.rank = doc.data().rank
                     } else {
                         console.log("No such document!");
                     }

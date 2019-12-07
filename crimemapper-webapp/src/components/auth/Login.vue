@@ -4,7 +4,12 @@
     <v-card-text>
       <v-form  ref="form" v-model="valid" lazy-validation>
          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-         <v-text-field v-model="passWord" :rules="passWordRules" label="Password" required></v-text-field>
+         <v-text-field v-model="passWord" 
+         :rules="passWordRules" 
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'passWord'"
+          label="Password" required
+          @click:append="showPassword = !showPassword"></v-text-field>
         <p class="red-text center" v-if="feedback">{{feedback}}</p>
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Login</v-btn>
         <v-btn color="error" class="mr-4" @click="reset">Clear</v-btn>
@@ -19,6 +24,7 @@ import firebase from 'firebase';
 require('firebase/auth')
 export default {
   data: () => ({
+    showPassword: false,
     valid: true,
     passWord: null,
     feedback: null,
@@ -37,10 +43,8 @@ export default {
       if (this.$refs.form.validate()) {
           firebase.auth().signInWithEmailAndPassword(this.email, this.passWord)
           .then(cred =>{
-            console.log(cred.uid);
              this.$router.push({name: 'Dashboard'})
           }).catch(err => {
-              // console.log(err)
               this.feedback = err.message;
             });
       } else {

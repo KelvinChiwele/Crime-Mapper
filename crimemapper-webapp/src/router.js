@@ -9,6 +9,9 @@ import Picker from './views/Picker.vue'
 import CrimeRegister from './views/CrimeRegister.vue'
 import Signup from './components/auth/Signup.vue'
 import Login from './components/auth/Login.vue'
+import Admin from './views/Admin.vue'
+import Team from './views/Team.vue'
+import firebase from 'firebase'
 
 Vue.use(Router)
 
@@ -89,14 +92,33 @@ const router = new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+
+    //Admin
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+    path: '/team',
+    name: 'Team',
+    component: Team,
+    meta: {
+      requiresAuth: true
     }
+  },
+
   ]
 })
 
 router.beforeEach((to, from, next) => {
   next()
   //check requirements for accesing route
- /* if (to.matched.some(rec => rec.meta.requiresAuth)){
+ if (to.matched.some(rec => rec.meta.requiresAuth)){
     //check Auth state
     let user = firebase.auth().currentUser
     if (user){
@@ -108,7 +130,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     next()
-  }*/
+  }
 })
 
 export default router
